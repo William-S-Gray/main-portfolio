@@ -71,9 +71,17 @@ export async function POST(request: Request) {
     return json({ error: "bad_request" }, 400);
   }
   if (!isValid(messages)) return json({ error: "bad_request" }, 400);
+  if (!process.env.ANTHROPIC_API_KEY) return json({ error: "not_configured" }, 503);
+
+  let knowledge: string;
+  try {
+    knowledge = await loadContext(request.url);
+  } catch (error) {
+    console.error("ask: context load failed:", error);
+    return json({ error: "context_unavailable" }, 502);
+  }
 
   try {
-    const knowledge = await loadContext(request.url);
     client ??= new Anthropic();
     const response = await client.beta.messages.create({
       model: "claude-opus-5-5",
@@ -93,8 +101,12 @@ export async function POST(request: Request) {
     if (!answer) return json({ error: "empty" }, 502);
     return json({ answer });
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) return json({ error: "busy" }, 503);
     console.error("ask failed:", error);
+    // Coarse reason only — enough to diagnose from a browser, nothing sensitive.
+    if (error instanceof Anthropic.RateLimitError) return json({ error: "busy" }, 503);
+    if (error instanceof Anthropic.AuthenticationError) return json({ error: "invalid_key" }, 502);
+    if (error instanceof Anthropic.PermissionDeniedError) return json({ error: "key_not_permitted" }, 502);
+    if (error instanceof Anthropic.BadRequestError) return json({ error: "bad_request_upstream" }, 502);
     return json({ error: "upstream" }, 502);
   }
 }

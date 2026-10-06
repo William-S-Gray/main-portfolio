@@ -31,3 +31,14 @@ describe("/api/ask input guard", () => {
     expect(statuses[12]).toBe(429);
   });
 });
+
+describe("/api/ask configuration", () => {
+  it("reports a missing API key instead of a generic upstream error", async () => {
+    const saved = process.env.ANTHROPIC_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
+    const res = await ask({ messages: [{ role: "user", content: "hi" }] }, "4.4.4.4");
+    expect(res.status).toBe(503);
+    expect(await res.json()).toEqual({ error: "not_configured" });
+    if (saved !== undefined) process.env.ANTHROPIC_API_KEY = saved;
+  });
+});
