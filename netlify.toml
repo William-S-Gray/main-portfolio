@@ -1,0 +1,8 @@
+# The site moved to Vercel (https://www.williamgray.dev). This keeps the old
+# william-gray.netlify.app address working: every path 301s to the same path
+# on the new domain, so old links and search rankings carry over.
+[[redirects]]
+  from = "/*"
+  to = "https://www.williamgray.dev/:splat"
+  status = 301
+  force = true
