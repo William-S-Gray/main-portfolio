@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Github } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
 
@@ -84,6 +84,16 @@ const ProjectCard = ({ project }: { project: Project }) => {
               className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ExternalLink size={15} /> Live
+            </a>
+          )}
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github size={15} /> Code
             </a>
           )}
           {project.status && (
