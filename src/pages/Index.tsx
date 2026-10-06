@@ -30,7 +30,7 @@ const audiences = [
       "Leads and communicates — ran a 100+ member developer community as GDSC President",
     ],
     primary: { label: "View résumé", to: "/resume" },
-    secondary: { label: "Contact me", to: "/contact" },
+    secondary: { label: "Contact me", to: "/contact?topic=job" },
   },
   {
     icon: Code2,
@@ -43,7 +43,7 @@ const audiences = [
       "Clear scope, regular demos, and support after launch",
     ],
     primary: { label: "See services", to: "/services" },
-    secondary: { label: "Start a project", to: "/contact" },
+    secondary: { label: "Start a project", to: "/contact?topic=project" },
   },
 ];
 

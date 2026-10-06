@@ -2,13 +2,14 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
+  ArrowRight,
   ExternalLink,
   Github,
   CheckCircle2,
   ArrowDown,
   Gauge,
 } from "lucide-react";
-import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
+import { categoryColors, categoryIcons, categoryLabel, statusBadge } from "@/lib/categories";
 import { projects } from "@/data/projects";
 import Seo from "@/components/Seo";
 import NotFound from "./NotFound";
@@ -20,6 +21,11 @@ const ProjectDetail = () => {
   const project = projects.find((p) => p.id === id);
 
   if (!project) return <NotFound />;
+
+  // Previous / next in the order the Projects page shows them, wrapping around.
+  const index = projects.indexOf(project);
+  const prev = projects[(index - 1 + projects.length) % projects.length];
+  const next = projects[(index + 1) % projects.length];
 
   const gradient = categoryColors[project.category] ?? "from-primary to-primary/60";
   const icon = categoryIcons[project.category];
@@ -58,8 +64,8 @@ const ProjectDetail = () => {
             <span className={`w-11 h-11 rounded-clay bg-gradient-to-br ${gradient} text-white flex items-center justify-center`}>
               {icon}
             </span>
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground capitalize">
-              {project.category}
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {categoryLabel(project.category)}
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">{project.title}</h1>
@@ -194,8 +200,24 @@ const ProjectDetail = () => {
           )}
         </div>
 
+        {/* Previous / next */}
+        <nav aria-label="More projects" className="grid sm:grid-cols-2 gap-4 mt-14">
+          <Link to={`/projects/${prev.id}`} className="clay-sm clay-hover p-5 group">
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
+              <ArrowLeft size={13} aria-hidden="true" /> Previous project
+            </span>
+            <span className="block mt-1 font-bold group-hover:text-primary transition-colors">{prev.title}</span>
+          </Link>
+          <Link to={`/projects/${next.id}`} className="clay-sm clay-hover p-5 group sm:text-right">
+            <span className="flex items-center sm:justify-end gap-1.5 text-xs font-semibold text-muted-foreground">
+              Next project <ArrowRight size={13} aria-hidden="true" />
+            </span>
+            <span className="block mt-1 font-bold group-hover:text-primary transition-colors">{next.title}</span>
+          </Link>
+        </nav>
+
         {/* CTA */}
-        <div className="clay-lg p-8 text-center mt-14">
+        <div className="clay-lg p-8 text-center mt-8">
           <h2 className="text-xl font-bold mb-2">Interested in work like this?</h2>
           <p className="text-sm text-muted-foreground mb-6">Let's talk about building something for your team.</p>
           <Link

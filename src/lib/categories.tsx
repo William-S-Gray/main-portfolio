@@ -44,3 +44,6 @@ export const statusBadge = {
     className: "bg-muted text-muted-foreground",
   },
 } as const;
+
+/** Display name for a category id ("ai" → "AI", "healthcare" → "Healthcare"). */
+export const categoryLabel = (c: string) => (c === "ai" ? "AI" : c.charAt(0).toUpperCase() + c.slice(1));

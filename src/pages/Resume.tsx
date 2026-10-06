@@ -18,7 +18,8 @@ const fmt = (d?: string) => {
 const range = (start?: string, end?: string) =>
   !start ? "" : start === end ? fmt(start) : `${fmt(start)} – ${end ? fmt(end) : "Present"}`;
 
-const shipped = projects.filter((p) => p.status !== "concept");
+// Top built projects in the Projects page order — keeps the printed résumé to two pages.
+const shipped = projects.filter((p) => p.status !== "concept").slice(0, 8);
 // Hand-picked for relevance to engineering roles; the full list lives on /certificates.
 const HIGHLIGHT_CERTS = [
   "software-architecture",

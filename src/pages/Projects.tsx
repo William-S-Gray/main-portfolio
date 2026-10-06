@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { projects } from "@/data/projects";
 import ProjectCard from "@/components/ProjectCard";
+import { categoryLabel } from "@/lib/categories";
 import Seo from "@/components/Seo";
 import { pageMeta } from "@/data/pages";
 
@@ -103,14 +104,14 @@ const Projects = () => {
               key={c}
               onClick={() => setFilter(c)}
               aria-pressed={filter === c}
-              className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-clay text-sm font-medium capitalize transition-all ${
+              className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-clay text-sm font-medium transition-all ${
                 filter === c
                   ? "bg-primary text-primary-foreground"
                   : "clay-sm text-muted-foreground hover:text-foreground"
               }`}
             >
               {categoryIcons[c]}
-              {c}
+              {categoryLabel(c)}
             </button>
           ))}
         </div>

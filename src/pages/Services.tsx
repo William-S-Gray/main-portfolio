@@ -108,7 +108,7 @@ const Services = () => (
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
-            to="/contact"
+            to="/contact?topic=project"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-clay bg-primary text-primary-foreground font-semibold clay-hover text-sm"
           >
             Start a project <ArrowRight size={16} />
@@ -208,7 +208,7 @@ const Services = () => (
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
-            to="/contact"
+            to="/contact?topic=project"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-clay bg-primary text-primary-foreground font-semibold clay-hover text-sm"
           >
             <Mail size={16} /> Send a message

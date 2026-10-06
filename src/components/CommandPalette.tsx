@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { projects } from "@/data/projects";
+import { categoryLabel } from "@/lib/categories";
 
 const EMAIL = "graywilliamwiltino@gmail.com";
 
@@ -79,7 +80,7 @@ const CommandPalette = () => {
     const projectItems: CommandItem[] = projects.map((p) => ({
       id: `project-${p.id}`,
       label: p.title,
-      hint: p.category,
+      hint: categoryLabel(p.category),
       group: "Projects",
       icon: <FolderGit2 size={16} />,
       keywords: `${p.description} ${p.techStack.join(" ")} ${p.category}`,
@@ -282,7 +283,7 @@ const CommandPalette = () => {
                             <span className={isActive ? "text-primary" : "text-muted-foreground"}>{c.icon}</span>
                             <span className="flex-1 font-medium">{c.label}</span>
                             {c.hint && (
-                              <span className="text-xs capitalize text-muted-foreground/70">{c.hint}</span>
+                              <span className="text-xs text-muted-foreground/70">{c.hint}</span>
                             )}
                             {isActive && <CornerDownLeft size={14} className="text-muted-foreground" />}
                           </button>
