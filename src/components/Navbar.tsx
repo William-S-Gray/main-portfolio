@@ -34,19 +34,19 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4 print:hidden">
       <nav aria-label="Primary" className="container mx-auto max-w-6xl">
-        <div className="clay-sm flex items-center justify-between px-6 py-3">
+        <div className="clay-sm flex items-center justify-between px-4 xl:px-6 py-3">
           <Link to="/" aria-label="William S. Gray — home" className="font-heading text-xl font-extrabold text-gradient">
             William.
           </Link>
 
           {/* Desktop */}
-          <ul className="hidden lg:flex items-center gap-1">
+          <ul className="hidden lg:flex items-center xl:gap-1">
             {links.map((l) => (
               <li key={l.to}>
                 <Link
                   to={l.to}
                   aria-current={location.pathname === l.to ? "page" : undefined}
-                  className={`relative px-4 py-2 rounded-clay text-sm font-medium transition-colors ${
+                  className={`relative px-2.5 xl:px-4 py-2 rounded-clay text-sm font-medium transition-colors ${
                     location.pathname === l.to
                       ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
@@ -73,12 +73,12 @@ const Navbar = () => {
               className="inline-flex items-center gap-2 px-3 py-2 rounded-clay clay-sm text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Search size={16} />
-              <kbd className="text-[10px] font-medium border border-border rounded px-1.5 py-0.5">⌘K</kbd>
+              <kbd className="hidden xl:inline text-[10px] font-medium border border-border rounded px-1.5 py-0.5">⌘K</kbd>
             </button>
             <ThemeToggle />
             <Link
               to="/contact"
-              className="inline-flex items-center px-5 py-2.5 rounded-clay bg-primary text-primary-foreground text-sm font-semibold clay-hover transition-all"
+              className="inline-flex items-center whitespace-nowrap px-4 xl:px-5 py-2.5 rounded-clay bg-primary text-primary-foreground text-sm font-semibold clay-hover transition-all"
             >
               Hire Me
             </Link>

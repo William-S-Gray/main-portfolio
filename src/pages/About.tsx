@@ -18,6 +18,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 import { resume } from "@/data/resume";
 
 const willNovaServices = [
@@ -74,11 +75,7 @@ const fadeUp = {
 
 const About = () => (
   <section className="px-4 py-16">
-    <Seo
-      title="About William S. Gray | Software Engineer & Computer Science Graduate"
-      description="William S. Gray — Software Engineer from Liberia, BSc Honours Computer Science graduate of Africa University, building full-stack, AI-powered, and cloud systems for real-world problems."
-      path="/about"
-    />
+    <Seo {...pageMeta["/about"]} path="/about" />
     <div className="container mx-auto max-w-5xl space-y-20">
       {/* Intro */}
       <motion.div

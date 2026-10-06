@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 import { WHATSAPP_URL } from "@/data/resume";
 
 // Every service points at a shipped project as proof — no claims without a case study.
@@ -90,11 +91,7 @@ const fadeUp = {
 
 const Services = () => (
   <section className="px-4 py-16">
-    <Seo
-      title="Services — Custom Software, Web Apps, APIs & AI | William S. Gray"
-      description="Hire William S. Gray to build management platforms, web apps, APIs, AI features and low-connectivity systems — from discovery to deployment and support. Remote, worldwide."
-      path="/services"
-    />
+    <Seo {...pageMeta["/services"]} path="/services" />
     <div className="container mx-auto max-w-6xl space-y-20">
       <motion.div
         className="text-center"

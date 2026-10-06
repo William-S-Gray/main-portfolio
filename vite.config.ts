@@ -6,6 +6,7 @@ import fs from "fs";
 import { posts } from "./src/data/posts";
 import { resume } from "./src/data/resume";
 import { projects } from "./src/data/projects";
+import { pageMeta } from "./src/data/pages";
 
 const SITE = "https://www.williamgray.dev";
 
@@ -47,14 +48,14 @@ type Route = { path: string; priority: string; page?: string; lastmod?: string; 
 
 /** Every real page on the site. Drives the sitemap and the per-route HTML files. */
 const routes: Route[] = [
-  { path: "/", priority: "1.0" },
-  { path: "/about", priority: "0.9", page: "About" },
-  { path: "/projects", priority: "0.9", page: "Projects" },
-  { path: "/certificates", priority: "0.8", page: "Certificates" },
-  { path: "/blog", priority: "0.8", page: "Blog" },
-  { path: "/services", priority: "0.7", page: "Services" },
-  { path: "/contact", priority: "0.6", page: "Contact" },
-  { path: "/resume", priority: "0.9", page: "Resume" },
+  { path: "/", priority: "1.0", ...pageMeta["/"] },
+  { path: "/about", priority: "0.9", page: "About", ...pageMeta["/about"] },
+  { path: "/projects", priority: "0.9", page: "Projects", ...pageMeta["/projects"] },
+  { path: "/certificates", priority: "0.8", page: "Certificates", ...pageMeta["/certificates"] },
+  { path: "/blog", priority: "0.8", page: "Blog", ...pageMeta["/blog"] },
+  { path: "/services", priority: "0.7", page: "Services", ...pageMeta["/services"] },
+  { path: "/contact", priority: "0.6", page: "Contact", ...pageMeta["/contact"] },
+  { path: "/resume", priority: "0.9", page: "Resume", ...pageMeta["/resume"] },
   // Titles/descriptions mirror the <Seo> props in ProjectDetail.tsx and BlogPost.tsx.
   ...projects.map((p) => ({
     path: `/projects/${p.id}`,
@@ -132,6 +133,7 @@ function staticFeeds(): Plugin {
     };
     const homeOnly = /\s*<!-- Homepage hero photo[^>]*-->\s*<link [^>]*data-home-only[^>]*>/;
     const notHome = shell.replace(homeOnly, "");
+    fs.writeFileSync(path.join(dir, "index.html"), withMeta(shell, routes[0]));
     for (const route of routes) {
       if (route.path === "/") continue;
       const html = withMeta(notHome, route).replace("</head>", `  ${preloads(route.page)}\n  </head>`);

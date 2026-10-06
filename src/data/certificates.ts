@@ -198,11 +198,11 @@ export const certificates: Certificate[] = [
   },
   {
     id: "aws-devops-engineer",
-    title: "AWS Certified DevOps Engineer",
+    title: "AWS DevOps Engineer (course)",
     issuer: "Mindluster",
     date: "Feb 2025",
     category: "Cloud & DevOps",
-    file: "/certificate/aws-certified-devops-engineer.pdf",
+    file: "/certificate/aws-devops-engineer-course-mindluster.pdf",
     credentialId: "f00bbf32",
   },
   {
