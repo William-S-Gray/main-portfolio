@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowRight, FileText, CheckCircle2, GraduationCap, Briefcase, Rocket, Users, Building2, Code2, Mail, MessageCircle, Github, Linkedin, Facebook, Instagram } from "lucide-react";
+import { ArrowRight, FileText, CheckCircle2, GraduationCap, Briefcase, Rocket, Users, Building2, Code2, Mail, MessageCircle, Github, Linkedin, Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 import ImpactStats from "@/components/ImpactStats";
 import GitHubActivity from "@/components/GitHubActivity";
 import ProjectCard from "@/components/ProjectCard";
@@ -56,11 +57,7 @@ const socials = [
 const Index = () => (
   <>
     <section className="px-4 min-h-[calc(100vh-6rem)] flex items-center">
-      <Seo
-      title="William S. Gray | Software Engineer & AI Full-Stack Systems Builder"
-      description="Software engineer William S. Gray builds scalable full-stack, AI-powered, and cloud-native systems — from clinical decision tools to school management platforms."
-      path="/"
-    />
+      <Seo {...pageMeta["/"]} path="/" />
     <div className="container mx-auto max-w-6xl">
       <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
         {/* Left */}
@@ -150,14 +147,6 @@ const Index = () => (
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="hidden lg:flex justify-center mt-16"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-      >
-        <ArrowDown size={20} className="text-muted-foreground" />
-      </motion.div>
     </div>
     </section>
     <section className="px-4 py-16" aria-labelledby="audiences-heading">

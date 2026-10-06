@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CommandPalette from "./CommandPalette";
 import AskAI from "./AskAI";
+import BackToTop from "./BackToTop";
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen flex flex-col">
@@ -13,10 +14,11 @@ const Layout = ({ children }: { children: ReactNode }) => (
       Skip to content
     </a>
     <Navbar />
-    <main id="main" className="flex-1 pt-24 print:pt-0">{children}</main>
+    <main id="main" tabIndex={-1} className="flex-1 pt-24 print:pt-0 outline-none">{children}</main>
     <Footer />
     <CommandPalette />
     <AskAI />
+    <BackToTop />
   </div>
 );
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Printer, Mail, Globe, Github, Linkedin, MessageCircle, MapPin, Briefcase, ArrowRight } from "lucide-react";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 import { resume, availability, WHATSAPP_URL } from "@/data/resume";
 import { projects } from "@/data/projects";
 import { certificates } from "@/data/certificates";
@@ -70,11 +71,7 @@ const Resume = () => {
 
   return (
     <section className="px-4 py-16 print:py-0">
-      <Seo
-        title="Résumé — William S. Gray | Software Engineer"
-        description="Résumé of William S. Gray: software engineer and Africa University Computer Science graduate — NetOne experience, WillNova founder, GDSC President. Open to full-time, contract and freelance work."
-        path="/resume"
-      />
+      <Seo {...pageMeta["/resume"]} path="/resume" />
       <article className="container mx-auto max-w-4xl clay-lg p-8 sm:p-12 print:p-0 print:border-0 space-y-10">
         {/* Header */}
         <header className="space-y-5">
@@ -170,7 +167,7 @@ const Resume = () => {
                 </Link>
                 {p.status === "in-development" && <span className="text-xs text-muted-foreground"> · in development</span>}
                 <p className="text-muted-foreground mt-0.5">{p.description.split(". ")[0].replace(/\.$/, "")}.</p>
-                <p className="text-xs text-muted-foreground/80 mt-0.5">{p.techStack.join(" · ")}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{p.techStack.join(" · ")}</p>
               </li>
             ))}
           </ul>

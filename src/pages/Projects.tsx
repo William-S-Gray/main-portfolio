@@ -14,6 +14,7 @@ import {
 import { projects } from "@/data/projects";
 import ProjectCard from "@/components/ProjectCard";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 
 const SITE_URL = "https://www.williamgray.dev";
 
@@ -74,11 +75,7 @@ const Projects = () => {
 
   return (
     <section className="px-4 py-16">
-      <Seo
-        title="Projects by William S. Gray | Full-Stack & AI Systems"
-        description="Explore software projects built by William S. Gray — PathoGuide, CampusIQ, Aegis, and more full-stack, AI-powered, and cloud systems across healthcare, education, and retail."
-        path="/projects"
-      />
+      <Seo {...pageMeta["/projects"]} path="/projects" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsJsonLd) }}

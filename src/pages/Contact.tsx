@@ -6,6 +6,7 @@ import { z } from "zod";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -115,11 +116,7 @@ const Contact = () => {
 
   return (
     <section className="px-4 py-16">
-      <Seo
-        title="Contact William S. Gray | Software Engineer"
-        description="Get in touch with William S. Gray for software engineering projects, full-stack development, AI solutions, or collaboration. Open to full-time, contract, and freelance work, remotely."
-        path="/contact"
-      />
+      <Seo {...pageMeta["/contact"]} path="/contact" />
       <div className="container mx-auto max-w-4xl">
         <motion.div
           className="text-center mb-14"

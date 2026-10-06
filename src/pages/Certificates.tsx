@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { certificates, certCategories, type Certificate, type CertCategory } from "@/data/certificates";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 
 const categoryMeta: Record<CertCategory, { icon: React.ReactNode; gradient: string }> = {
   "Software Engineering & Development": { icon: <Code2 size={20} />, gradient: "from-blue-500 to-indigo-600" },
@@ -33,11 +34,7 @@ const Certificates = () => {
 
   return (
     <section className="px-4 py-16">
-      <Seo
-        title="Certificates & Credentials | William S. Gray"
-        description="Verified certifications earned by William S. Gray in software engineering, AI & automation, cloud & DevOps, security, and leadership — from Udemy, Google, Great Learning, and more."
-        path="/certificates"
-      />
+      <Seo {...pageMeta["/certificates"]} path="/certificates" />
 
       <div className="container mx-auto max-w-6xl">
         {/* Heading */}

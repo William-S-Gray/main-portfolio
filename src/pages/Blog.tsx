@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import { posts } from "@/data/posts";
 import Seo from "@/components/Seo";
+import { pageMeta } from "@/data/pages";
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -12,11 +13,7 @@ const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
 
 const Blog = () => (
   <section className="px-4 py-16">
-    <Seo
-      title="Blog | William S. Gray"
-      description="Writing by William S. Gray on software engineering, AI, and building technology for real-world problems in Africa and emerging markets."
-      path="/blog"
-    />
+    <Seo {...pageMeta["/blog"]} path="/blog" />
     <div className="container mx-auto max-w-4xl">
       <motion.div
         className="text-center mb-12"
