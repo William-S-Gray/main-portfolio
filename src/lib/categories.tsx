@@ -36,7 +36,7 @@ export const statusBadge = {
   "in-development": {
     label: "In development",
     detail: "In development — not yet deployed",
-    className: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+    className: "bg-amber-500/15 text-amber-800 dark:text-amber-300",
   },
   concept: {
     label: "Concept",
