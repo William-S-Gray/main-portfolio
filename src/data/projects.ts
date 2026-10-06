@@ -24,7 +24,7 @@ export interface Project {
   results?: string[];
 }
 
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     id: "pathoguide",
     featured: true,
@@ -446,3 +446,6 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/** Display order: projects with a live link first; otherwise the order written above (sort is stable). */
+export const projects: Project[] = [...allProjects].sort((a, b) => Number(Boolean(b.liveUrl)) - Number(Boolean(a.liveUrl)));
