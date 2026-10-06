@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const SITE_URL = "https://william-gray.netlify.app";
+const SITE_URL = "https://www.williamgray.dev";
 const DEFAULT_TITLE = "William S. Gray | Software Engineer & AI Full-Stack Systems Builder";
 
 interface SeoProps {

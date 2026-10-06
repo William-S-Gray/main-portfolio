@@ -5,7 +5,7 @@ import { posts } from "@/data/posts";
 import Seo from "@/components/Seo";
 import NotFound from "./NotFound";
 
-const SITE_URL = "https://william-gray.netlify.app";
+const SITE_URL = "https://www.williamgray.dev";
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });

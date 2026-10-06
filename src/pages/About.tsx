@@ -366,8 +366,8 @@ const About = () => (
         <p className="text-muted-foreground text-sm mb-2">
           I'm focused on growing as a Software Engineer and contributing to teams building meaningful technology
           at scale — open to software engineering, full-stack, backend, frontend, cloud &amp; DevOps, AI-powered
-          systems, graduate programmes, and international technology organisations. Remote, hybrid, or on-site
-          globally, including relocation.
+          systems, graduate programmes, and international technology organisations. Full-time, contract, or
+          freelance — remote first (CAT, UTC+2), with hybrid, on-site, or relocation also possible.
         </p>
         <p className="text-foreground font-semibold mt-6 mb-8">
           For me, technology is not only about what can be built. It is about what becomes possible because we

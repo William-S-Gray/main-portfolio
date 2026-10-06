@@ -33,8 +33,9 @@ const Index = () => (
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <span className="inline-block clay-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6">
-            Available for opportunities
+          <span className="inline-flex items-center gap-2 clay-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to full-time, contract &amp; freelance · Remote
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
             Hi, I'm <span className="text-gradient">William S. Gray</span>

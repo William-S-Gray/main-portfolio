@@ -15,7 +15,7 @@ import { projects } from "@/data/projects";
 import ProjectCard from "@/components/ProjectCard";
 import Seo from "@/components/Seo";
 
-const SITE_URL = "https://william-gray.netlify.app";
+const SITE_URL = "https://www.williamgray.dev";
 
 // ItemList structured data so search engines can associate each system with William S. Gray.
 const projectsJsonLd = {
