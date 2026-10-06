@@ -5,7 +5,6 @@ import fs from "fs";
 import { posts } from "./src/data/posts";
 import { resume } from "./src/data/resume";
 import { projects } from "./src/data/projects";
-import { certificates } from "./src/data/certificates";
 
 const SITE = "https://www.williamgray.dev";
 
@@ -67,42 +66,11 @@ ${body}
 `;
 }
 
-/** Plain-text knowledge base the /api/ask assistant answers from. Public info only. */
-function buildAiContext(): string {
-  const projectLines = projects.map((p) =>
-    [
-      `## ${p.title} (${SITE}/projects/${p.id})`,
-      p.description,
-      p.status ? `Status: ${p.status}` : p.liveUrl ? `Live: ${p.liveUrl}` : "",
-      `Category: ${p.category}. Tech: ${p.techStack.join(", ")}.`,
-      p.problem ? `Problem: ${p.problem}` : "",
-      p.role ? `Role: ${p.role}` : "",
-      p.features?.length ? `Features: ${p.features.join("; ")}.` : "",
-    ]
-      .filter(Boolean)
-      .join("\n")
-  );
-  return [
-    "# Availability",
-    "Open to full-time, contract, and freelance work. Remote first, based in Zimbabwe (CAT, UTC+2); open to hybrid, on-site, or relocation.",
-    `Contact: ${resume.basics.email} or ${SITE}/contact. CV: ${SITE}/William%20S.%20Gray%20Professional%20CV.pdf`,
-    "# Resume (JSON Resume)",
-    JSON.stringify({ ...resume, $schema: undefined }),
-    "# Projects",
-    ...projectLines,
-    "# Certifications",
-    certificates.map((c) => `${c.title} — ${c.issuer} (${c.date})`).join("\n"),
-    "# Blog posts",
-    posts.map((p) => `${p.title} (${SITE}/blog/${p.slug}): ${p.excerpt}`).join("\n"),
-  ].join("\n\n");
-}
-
-/** Emits /rss.xml, /sitemap.xml, /resume.json and /ai-context.txt into the build output. */
+/** Emits /rss.xml, /sitemap.xml and /resume.json into the build output. */
 function staticFeeds(): Plugin {
   const write = (dir: string) => {
     fs.writeFileSync(path.join(dir, "rss.xml"), buildRss());
     fs.writeFileSync(path.join(dir, "sitemap.xml"), buildSitemap());
-    fs.writeFileSync(path.join(dir, "ai-context.txt"), buildAiContext());
     fs.writeFileSync(path.join(dir, "resume.json"), JSON.stringify(resume, null, 2));
   };
   return {
