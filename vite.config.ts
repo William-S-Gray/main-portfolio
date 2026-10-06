@@ -44,7 +44,7 @@ ${items}
 }
 
 /** `page` is the lazy-loaded src/pages/<page>.tsx chunk to modulepreload on that route. */
-type Route = { path: string; priority: string; page?: string; lastmod?: string; title?: string; description?: string };
+type Route = { path: string; priority: string; page?: string; lastmod?: string; title?: string; description?: string; image?: string };
 
 /** Every real page on the site. Drives the sitemap and the per-route HTML files. */
 const routes: Route[] = [
@@ -63,6 +63,7 @@ const routes: Route[] = [
     page: "ProjectDetail",
     title: `${p.title} — Project by William S. Gray`,
     description: p.description.slice(0, 155),
+    image: p.image && fs.existsSync(path.resolve(__dirname, `public/og/${p.id}.jpg`)) ? `/og/${p.id}.jpg` : undefined,
   })),
   ...posts.map((p) => ({
     path: `/blog/${p.slug}`,
@@ -89,13 +90,20 @@ ${body}
 }
 
 /** Swaps the homepage title/description/URL tags in the built index.html for a route's own. */
-function withMeta(html: string, { path: loc, title, description }: Route): string {
+function withMeta(html: string, { path: loc, title, description, image }: Route): string {
   if (!title || !description) return html;
   const url = `${SITE}${loc}`;
   const set = (attr: string, key: string, value: string) =>
     html.replace(new RegExp(`(<meta\\s+${attr}="${key}"\\s+content=")[^"]*(")`), `$1${escapeXml(value)}$2`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeXml(title)}</title>`);
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`);
+  if (image) {
+    // 1200×630 JPEG of the project screenshot (public/og/), same size as the default image.
+    html = set("property", "og:image", `${SITE}${image}`);
+    html = set("name", "twitter:image", `${SITE}${image}`);
+    html = set("property", "og:image:alt", `${title} — screenshot`);
+    html = set("name", "twitter:image:alt", `${title} — screenshot`);
+  }
   for (const [attr, key, value] of [
     ["name", "description", description],
     ["property", "og:title", title],

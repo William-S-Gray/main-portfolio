@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 import { Send, MapPin, Mail, Github, Linkedin, MessageCircle } from "lucide-react";
 import { WHATSAPP_URL } from "@/data/resume";
 import { z } from "zod";
@@ -25,7 +26,20 @@ const fields: { name: keyof FormData; label: string; type?: string; autoComplete
   { name: "message", label: "Message" },
 ];
 
+// "What's this about?" — goes into the subject of the email William receives, so
+// recruiters and clients are easy to tell apart. ?topic=job|project preselects it.
+const TOPICS = {
+  job: "Job opportunity",
+  project: "Freelance or contract project",
+  collab: "Collaboration",
+  other: "Something else",
+} as const;
+type Topic = keyof typeof TOPICS;
+
 const Contact = () => {
+  const [searchParams] = useSearchParams();
+  const requested = searchParams.get("topic");
+  const [topic, setTopic] = useState<Topic>(requested && requested in TOPICS ? (requested as Topic) : "job");
   const [form, setForm] = useState<FormData>({
     name: "",
     email: "",
@@ -78,7 +92,7 @@ const Contact = () => {
         {
           name: form.name,
           email: form.email,
-          subject: form.subject,
+          subject: `[${TOPICS[topic]}] ${form.subject}`,
           message: form.message,
         },
         "v3g-7vFdAFIegC_Hz"
@@ -223,6 +237,24 @@ const Contact = () => {
                   <label htmlFor="contact-website">Website</label>
                   <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
                 </div>
+                <div>
+                  <label htmlFor="contact-topic" className="block text-sm font-semibold mb-1.5">
+                    What's this about?
+                  </label>
+                  <select
+                    id="contact-topic"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value as Topic)}
+                    className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50"
+                  >
+                    {(Object.keys(TOPICS) as Topic[]).map((t) => (
+                      <option key={t} value={t} className="bg-background">
+                        {TOPICS[t]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 {fields.map((f) => {
                   const Tag = f.name === "message" ? "textarea" : "input";
                   return (

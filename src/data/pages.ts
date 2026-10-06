@@ -22,7 +22,7 @@ export const pageMeta = {
   "/projects": {
     title: "Projects by William S. Gray | Full-Stack & AI Systems",
     description:
-      "Case studies of systems built by William S. Gray — ERDMS, PathoGuide, Aegis, Zoe Campus, CampusIQ and more across healthcare, education, emergency response and security.",
+      "Case studies of systems built by William S. Gray — PathoGuide, Aegis, ERDMS, ClaimGuard, Zoe Campus and more across healthcare, education, emergency response and security.",
   },
   "/certificates": {
     title: "Certificates & Credentials | William S. Gray",

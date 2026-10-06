@@ -11,6 +11,7 @@ import {
   UtensilsCrossed,
   School,
   Building2,
+  Siren,
   Rocket,
   ArrowUpRight,
   ArrowRight,
@@ -35,14 +36,14 @@ const techStack = [
 ];
 
 const systems = [
-  { icon: Stethoscope, name: "PathoGuide AMR Assist", desc: "Clinical decision-support for antimicrobial resistance intelligence and better-informed treatment decisions." },
-  { icon: ShieldCheck, name: "ClaimGuard 360°", desc: "Intelligent health-insurance claims processing with improved visibility across the healthcare insurance ecosystem." },
-  { icon: Sprout, name: "AgriConnect", desc: "Digital agriculture platform linking farmers with market information, buyers, weather intelligence, and services." },
-  { icon: Pill, name: "PharmConnect Zim", desc: "Medicine discovery platform that helps people locate medicines across participating pharmacies." },
-  { icon: UtensilsCrossed, name: "Meal-Pass", desc: "Digital meal distribution and beneficiary management system built for high-volume operations." },
-  { icon: School, name: "Education Management Systems", desc: "Platforms that automate academic administration, attendance, finance, communication, and reporting." },
-  { icon: Building2, name: "Clinic & Hospital Systems", desc: "Digital platforms improving workflows across administration, clinical services, labs, pharmacies, and billing." },
-];
+  { icon: Stethoscope, name: "PathoGuide AMR Assist", to: "/projects/pathoguide", desc: "Clinical decision-support for antimicrobial resistance intelligence and better-informed treatment decisions." },
+  { icon: ShieldCheck, name: "ClaimGuard 360°", to: "/projects/claimguard", desc: "Explainable, real-time fraud scoring for medical-aid claims, with member confirmation over WhatsApp/USSD." },
+  { icon: Siren, name: "ERDMS", to: "/projects/erdms", desc: "Emergency response and dispatch for low-connectivity environments — one incident record across citizen, dispatcher and responder." },
+  { icon: Pill, name: "PharmConnect Zim", to: "/projects/pharmtrack", desc: "Medicine discovery that shows which nearby pharmacies have a medicine in stock, live." },
+  { icon: UtensilsCrossed, name: "Meal Pass", to: "/projects/meal-pass", desc: "Employee feeding access with QR/barcode meal IDs that verify eligibility and prevent double feeding." },
+  { icon: School, name: "School & Campus Platforms", to: "/projects/sacred-heart-sms", desc: "Sacred Heart, 4Life Zoe Campus and CampusIQ — admissions, fees, attendance, report cards and dashboards." },
+  { icon: Building2, name: "Hostels, Queues & Operations", to: "/projects/hostel-harmony", desc: "Hostel Harmony, QueueFlow and SmartMart — allocation, live queues, point of sale and reporting." },
+]
 
 const leadershipIcons = [Users, Landmark, BookOpen];
 const leadership = resume.volunteer.map((v, i) => ({
@@ -189,23 +190,25 @@ const About = () => (
         </div>
         <div className="grid sm:grid-cols-2 gap-5">
           {systems.map((s, i) => (
-            <motion.article
+            <motion.div
               key={s.name}
               custom={i}
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="clay p-6 flex items-start gap-4 clay-hover"
+              className="clay clay-hover"
             >
-              <span className="w-11 h-11 rounded-clay bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                <s.icon size={20} />
-              </span>
-              <div>
-                <h3 className="font-semibold mb-1">{s.name}</h3>
-                <p className="text-sm text-muted-foreground">{s.desc}</p>
-              </div>
-            </motion.article>
+              <Link to={s.to} className="p-6 flex items-start gap-4 h-full group">
+                <span className="w-11 h-11 rounded-clay bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                  <s.icon size={20} />
+                </span>
+                <div>
+                  <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">{s.name}</h3>
+                  <p className="text-sm text-muted-foreground">{s.desc}</p>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
         <div className="text-center mt-8">
