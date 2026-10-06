@@ -85,14 +85,14 @@ export const knowledgeBase: KbEntry[] = [
   },
   {
     id: "certificates",
-    keywords: ["certificate", "certification", "certified", "credential", "course", "training", "udemy", "google cloud"],
+    keywords: ["certificate", "certificates", "certification", "certifications", "certified", "credential", "course", "training", "udemy", "google cloud"],
     answer:
       `William has earned ${certificates.length}+ professional certifications spanning cloud & DevOps, software engineering, AI & automation, and more — all verifiable on the certificates page.`,
     cta: { label: "View certificates", to: "/certificates" },
   },
   {
     id: "availability",
-    keywords: ["available", "availability", "hire", "hiring", "job", "opportunit", "remote", "work with", "freelance", "open to", "recruit"],
+    keywords: ["available", "availability", "hire", "hiring", "job", "opportunit", "remote", "work with", "freelance", "contract", "full-time", "full time", "part-time", "part time", "open to", "recruit"],
     answer:
       "Yes — William is open to full-time, contract, and freelance work in software engineering, full-stack, AI systems, and DevOps. He works remotely from Zimbabwe (CAT, UTC+2) and is open to hybrid, on-site, or relocation. The fastest way to reach him is the contact page or email.",
     cta: { label: "Get in touch", to: "/contact" },
@@ -112,9 +112,9 @@ export const knowledgeBase: KbEntry[] = [
   },
   {
     id: "location",
-    keywords: ["where", "location", "based", "from", "country", "liberia", "zimbabwe", "africa"],
+    keywords: ["where", "location", "based", "from", "country", "liberia", "zimbabwe", "africa", "timezone", "time zone", "utc"],
     answer:
-      "William is from Liberia and was educated in Mutare, Zimbabwe, at Africa University. He builds for global, cloud-native deployment and is open to remote work.",
+      "William is from Liberia and is based in Zimbabwe (CAT, UTC+2), where he studied at Africa University in Mutare. He works remotely with teams worldwide and is open to hybrid, on-site, or relocation.",
     cta: { label: "About", to: "/about" },
   },
 ];
