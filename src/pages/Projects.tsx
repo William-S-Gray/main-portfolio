@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ExternalLink,
-  ArrowRight,
   Stethoscope,
   LayoutDashboard,
   ShoppingBag,
@@ -11,12 +8,14 @@ import {
   Bot,
   ShoppingCart,
   ShieldCheck,
+  Siren,
   Grid2X2,
 } from "lucide-react";
-import { projects, type Project } from "@/data/projects";
+import { projects } from "@/data/projects";
+import ProjectCard from "@/components/ProjectCard";
 import Seo from "@/components/Seo";
 
-const SITE_URL = "https://william-gray.netlify.app";
+const SITE_URL = "https://www.williamgray.dev";
 
 // ItemList structured data so search engines can associate each system with William S. Gray.
 const projectsJsonLd = {
@@ -50,6 +49,7 @@ const categories = [
   "ai",
   "retail",
   "security",
+  "emergency",
 ] as const;
 
 type Category = (typeof categories)[number];
@@ -63,27 +63,7 @@ const categoryIcons: Record<Category, React.ReactNode> = {
   ai: <Bot size={14} />,
   retail: <ShoppingCart size={14} />,
   security: <ShieldCheck size={14} />,
-};
-
-// Larger icons for project card badges
-const categoryCardIcons: Record<string, React.ReactNode> = {
-  healthcare: <Stethoscope size={22} />,
-  management: <LayoutDashboard size={22} />,
-  marketplace: <ShoppingBag size={22} />,
-  entertainment: <Music size={22} />,
-  ai: <Bot size={22} />,
-  retail: <ShoppingCart size={22} />,
-  security: <ShieldCheck size={22} />,
-};
-
-const categoryColors: Record<string, string> = {
-  healthcare: "from-emerald-500 to-teal-600",
-  management: "from-blue-500 to-indigo-600",
-  marketplace: "from-orange-400 to-amber-500",
-  entertainment: "from-purple-500 to-pink-500",
-  ai: "from-cyan-500 to-sky-600",
-  retail: "from-green-500 to-emerald-600",
-  security: "from-orange-500 to-red-600",
+  emergency: <Siren size={14} />,
 };
 
 const Projects = () => {
@@ -120,11 +100,12 @@ const Projects = () => {
         </motion.div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
+        <div role="group" aria-label="Filter projects by category" className="flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((c) => (
             <button
               key={c}
               onClick={() => setFilter(c)}
+              aria-pressed={filter === c}
               className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-clay text-sm font-medium capitalize transition-all ${
                 filter === c
                   ? "bg-primary text-primary-foreground"
@@ -147,94 +128,6 @@ const Projects = () => {
         </motion.div>
       </div>
     </section>
-  );
-};
-
-const ProjectCard = ({ project }: { project: Project }) => {
-  const iconColorClass =
-    categoryColors[project.category] ?? "from-primary to-primary/60";
-  const cardIcon = categoryCardIcons[project.category];
-
-  return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.35 }}
-      className="clay overflow-hidden clay-hover group"
-    >
-      <div className="relative overflow-hidden h-48">
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={`${project.title} preview`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-        ) : (
-          /* Branded gradient placeholder when no screenshot is available */
-          <div
-            className={`w-full h-full bg-gradient-to-br ${iconColorClass} flex flex-col items-center justify-center gap-3 text-white transition-transform duration-500 group-hover:scale-105`}
-          >
-            <div className="opacity-90 [&>svg]:w-10 [&>svg]:h-10">{cardIcon}</div>
-            <span className="font-heading font-bold text-lg tracking-tight px-4 text-center drop-shadow-sm">
-              {project.title}
-            </span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors" />
-        {/* Category icon badge — only over real screenshots */}
-        {cardIcon && project.image && (
-          <div
-            aria-hidden="true"
-            className={`absolute top-3 right-3 bg-gradient-to-br ${iconColorClass} text-white p-2 rounded-xl shadow-lg backdrop-blur-sm`}
-          >
-            {cardIcon}
-          </div>
-        )}
-      </div>
-      <div className="p-6">
-        <div className="flex items-start gap-3 mb-2">
-          <h3 className="font-bold text-lg leading-tight">
-            <Link to={`/projects/${project.id}`} className="hover:text-primary transition-colors">
-              {project.title}
-            </Link>
-          </h3>
-        </div>
-        <p className="text-sm text-muted-foreground mb-4">
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.techStack.map((t) => (
-            <span
-              key={t}
-              className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="flex items-center gap-4">
-          <Link
-            to={`/projects/${project.id}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-          >
-            Case study <ArrowRight size={14} />
-          </Link>
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ExternalLink size={15} /> Live
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.article>
   );
 };
 

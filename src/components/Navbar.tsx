@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
@@ -20,6 +20,16 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
+  // Close on any navigation (links, command palette, back button).
+  useEffect(() => setOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
       <nav aria-label="Primary" className="container mx-auto max-w-6xl">
@@ -34,6 +44,7 @@ const Navbar = () => {
               <li key={l.to}>
                 <Link
                   to={l.to}
+                  aria-current={location.pathname === l.to ? "page" : undefined}
                   className={`relative px-4 py-2 rounded-clay text-sm font-medium transition-colors ${
                     location.pathname === l.to
                       ? "text-primary"
@@ -85,7 +96,9 @@ const Navbar = () => {
             <button
               onClick={() => setOpen(!open)}
               className="p-2 rounded-clay text-foreground"
-              aria-label="Toggle menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
             >
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -96,6 +109,7 @@ const Navbar = () => {
         <AnimatePresence>
           {open && (
             <motion.div
+              id="mobile-menu"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -106,7 +120,7 @@ const Navbar = () => {
                   <li key={l.to}>
                     <Link
                       to={l.to}
-                      onClick={() => setOpen(false)}
+                      aria-current={location.pathname === l.to ? "page" : undefined}
                       className={`block px-4 py-3 rounded-clay text-sm font-medium transition-colors ${
                         location.pathname === l.to
                           ? "bg-primary/10 text-primary"

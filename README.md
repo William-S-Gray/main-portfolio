@@ -2,32 +2,35 @@
 
 Personal portfolio of **William S. Gray**, Software Engineer & AI Full-Stack Systems Builder. A modern, responsive site built with a claymorphism design system, featuring light/dark mode, animated transitions, a filterable project showcase, and a working contact form.
 
-🔗 **Live:** https://william-gray.netlify.app/
+🔗 **Live:** https://www.williamgray.dev/
 
 ## Tech Stack
 
 - **Framework:** React 18 + TypeScript
 - **Build tool:** Vite
 - **Styling:** Tailwind CSS + custom claymorphism tokens
-- **UI primitives:** shadcn/ui (Radix UI)
 - **Animation:** Framer Motion
 - **Routing:** React Router
-- **Forms & validation:** React Hook Form + Zod
+- **Validation:** Zod
 - **Email:** EmailJS
 - **Theming:** next-themes (light / dark)
+- **AI assistant:** Claude (Anthropic SDK) via a Vercel function
+- **Analytics:** Vercel Web Analytics
 
 ## Features
 
 - 🎨 Claymorphism UI with theme-aware light & dark modes
 - 📱 Fully responsive across mobile, tablet, and desktop
 - 🗂️ Filterable project gallery with branded gradient placeholders for projects without screenshots
-- ✉️ Contact form with client-side validation, EmailJS delivery, and toast feedback
+- ✉️ Contact form with client-side validation, EmailJS delivery, toast feedback, and a honeypot spam trap
+- 🤖 "Ask my AI" chat answered by Claude from the site's own data (`api/ask.ts`), falling back to an offline keyword matcher
+- 📚 Case studies with architecture, key decisions, and measured results
 - ⚡ Route-level code splitting for fast initial loads
 - 🔍 SEO: per-route meta, Open Graph, Twitter cards, JSON-LD (`ProfilePage`/`Person`), sitemap & robots
 
 ## Getting Started
 
-Requires [Node.js](https://nodejs.org) 18+ (or [Bun](https://bun.sh)).
+Requires [Node.js](https://nodejs.org) 18+.
 
 ```sh
 npm install       # install dependencies
@@ -41,18 +44,17 @@ npm run lint      # lint
 ## Project Structure
 
 ```
+api/
+└── ask.ts          # Vercel function: "Ask my AI" (Claude)
 public/
 ├── projects/       # project screenshots
-├── robots.txt
-├── sitemap.xml
-└── _redirects      # Netlify SPA fallback
+└── robots.txt
 src/
-├── assets/         # static images
-├── components/     # Navbar, Footer, Layout, ThemeProvider, ThemeToggle, Seo, ui/
-├── data/           # projects.ts — project catalog
-├── hooks/          # custom hooks
-├── lib/            # utilities
-└── pages/          # Index, About, Services, Projects, Contact, NotFound
+├── components/     # Navbar, Footer, Layout, ProjectCard, AskAI, CommandPalette, Seo, …
+├── data/           # projects, posts, certificates, resume, assistant knowledge
+├── lib/            # project category icons, colours, status badges
+└── pages/          # Index, About, Services, Projects, ProjectDetail, Blog, Contact, …
+vercel.json         # SPA fallback for deep links
 ```
 
 ## Customization
@@ -65,7 +67,11 @@ src/
 
 ## Deployment
 
-Deployed on Netlify. The `public/_redirects` file provides the SPA fallback so deep links (`/about`, `/projects`, …) resolve on direct hits and crawls. Update `sitemap.xml`, `robots.txt`, and the canonical/OG URLs in `index.html` if the domain changes.
+Deployed on Vercel at https://www.williamgray.dev. `vercel.json` rewrites every non-`/api` path to `index.html` so deep links (`/about`, `/projects/…`) resolve on direct hits and crawls. The build also emits `sitemap.xml`, `rss.xml`, `resume.json`, and `ai-context.txt` (the assistant's knowledge base) from `src/data`.
+
+Environment variables (Vercel project settings):
+
+- `ANTHROPIC_API_KEY` — enables Claude answers in "Ask my AI". Without it the widget uses its offline answers. Set a monthly spend limit in the Anthropic Console.
 
 ## License
 

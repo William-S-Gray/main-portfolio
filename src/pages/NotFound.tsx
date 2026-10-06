@@ -1,14 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
   return (
     <section className="px-4 py-16 min-h-[calc(100vh-12rem)] flex items-center justify-center">
       <div className="clay p-10 sm:p-14 text-center max-w-md">

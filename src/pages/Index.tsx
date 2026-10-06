@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Facebook, Instagram } from "lucide-react";
+import { ArrowDown, ArrowRight, Download, Github, Linkedin, Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import ImpactStats from "@/components/ImpactStats";
 import GitHubActivity from "@/components/GitHubActivity";
+import ProjectCard from "@/components/ProjectCard";
+import { projects } from "@/data/projects";
+
+const featured = projects.filter((p) => p.featured);
 
 const socials = [
   { icon: Github, href: "https://github.com/William-S-Gray", label: "GitHub" },
@@ -29,8 +33,9 @@ const Index = () => (
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <span className="inline-block clay-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6">
-            Available for opportunities
+          <span className="inline-flex items-center gap-2 clay-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to full-time, contract &amp; freelance · Remote
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
             Hi, I'm <span className="text-gradient">William S. Gray</span>
@@ -111,6 +116,29 @@ const Index = () => (
         <ArrowDown size={20} className="text-muted-foreground" />
       </motion.div>
     </div>
+    </section>
+    <section className="px-4 py-16" aria-labelledby="featured-heading">
+      <div className="container mx-auto max-w-6xl">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 id="featured-heading" className="text-2xl sm:text-3xl font-extrabold">
+              Featured <span className="text-gradient">work</span>
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">Systems I've designed and shipped end to end.</p>
+          </div>
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+          >
+            All {projects.length} projects <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featured.map((p) => (
+            <ProjectCard key={p.id} project={p} />
+          ))}
+        </div>
+      </div>
     </section>
     <ImpactStats />
     <GitHubActivity />

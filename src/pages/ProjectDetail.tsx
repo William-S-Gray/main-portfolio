@@ -5,39 +5,15 @@ import {
   ExternalLink,
   Github,
   CheckCircle2,
-  Stethoscope,
-  LayoutDashboard,
-  ShoppingBag,
-  Music,
-  Bot,
-  ShoppingCart,
-  ShieldCheck,
+  ArrowDown,
+  Gauge,
 } from "lucide-react";
+import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
 import { projects } from "@/data/projects";
 import Seo from "@/components/Seo";
 import NotFound from "./NotFound";
 
-const SITE_URL = "https://william-gray.netlify.app";
-
-const categoryIcon: Record<string, React.ReactNode> = {
-  healthcare: <Stethoscope size={22} />,
-  management: <LayoutDashboard size={22} />,
-  marketplace: <ShoppingBag size={22} />,
-  entertainment: <Music size={22} />,
-  ai: <Bot size={22} />,
-  retail: <ShoppingCart size={22} />,
-  security: <ShieldCheck size={22} />,
-};
-
-const categoryColor: Record<string, string> = {
-  healthcare: "from-emerald-500 to-teal-600",
-  management: "from-blue-500 to-indigo-600",
-  marketplace: "from-orange-400 to-amber-500",
-  entertainment: "from-purple-500 to-pink-500",
-  ai: "from-cyan-500 to-sky-600",
-  retail: "from-green-500 to-emerald-600",
-  security: "from-orange-500 to-red-600",
-};
+const SITE_URL = "https://www.williamgray.dev";
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -45,8 +21,8 @@ const ProjectDetail = () => {
 
   if (!project) return <NotFound />;
 
-  const gradient = categoryColor[project.category] ?? "from-primary to-primary/60";
-  const icon = categoryIcon[project.category];
+  const gradient = categoryColors[project.category] ?? "from-primary to-primary/60";
+  const icon = categoryIcons[project.category];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -95,6 +71,11 @@ const ProjectDetail = () => {
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-3 mb-10">
+            {project.status && (
+              <span className={`inline-flex items-center px-4 py-2 rounded-clay text-sm font-semibold ${statusBadge[project.status].className}`}>
+                {statusBadge[project.status].detail}
+              </span>
+            )}
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
@@ -164,6 +145,48 @@ const ProjectDetail = () => {
                   <li key={f} className="clay-sm px-4 py-3 flex items-start gap-2.5 text-sm">
                     <CheckCircle2 size={17} className="text-primary flex-shrink-0 mt-0.5" />
                     {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {project.architecture && project.architecture.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">Architecture</h2>
+              <ol className="list-none p-0 flex flex-col items-stretch">
+                {project.architecture.map((layer, i) => (
+                  <li key={layer} className="flex flex-col items-center">
+                    {i > 0 && <ArrowDown size={16} aria-hidden="true" className="my-1.5 text-muted-foreground" />}
+                    <span className="w-full clay-sm px-4 py-3 text-sm text-center font-medium">{layer}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          {project.decisions && project.decisions.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">Key decisions</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {project.decisions.map((d) => (
+                  <div key={d.title} className="clay-sm p-5">
+                    <h3 className="font-semibold text-sm mb-1.5">{d.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{d.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {project.results && project.results.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">Results &amp; engineering</h2>
+              <ul className="space-y-3 list-none p-0">
+                {project.results.map((r) => (
+                  <li key={r} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed">
+                    <Gauge size={17} aria-hidden="true" className="text-primary flex-shrink-0 mt-0.5" />
+                    {r}
                   </li>
                 ))}
               </ul>

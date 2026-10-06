@@ -19,9 +19,9 @@ const GREETING: Message = {
 };
 
 /**
- * "Ask William's AI" — a floating chat widget answering questions about
- * William from a local knowledge base (no network / LLM call). Offline,
- * instant, and free. See src/data/assistant.ts for the knowledge + matcher.
+ * "Ask William's AI" — a floating chat widget. Answers come from Claude via
+ * /api/ask (api/ask.ts), falling back to the offline keyword matcher in
+ * src/data/assistant.ts when the API is unavailable.
  */
 const AskAI = () => {
   const [open, setOpen] = useState(false);
@@ -35,23 +35,37 @@ const AskAI = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, typing]);
 
-  const send = (raw: string) => {
+  const send = async (raw: string) => {
     const text = raw.trim();
     if (!text || typing) return;
     const userMsg: Message = { id: nextId.current++, role: "user", text };
-    setMessages((m) => [...m, userMsg]);
+    const history = [...messages, userMsg];
+    setMessages(history);
     setInput("");
     setTyping(true);
 
-    // Small delay so it reads like a considered reply, not an instant lookup.
-    const reply = answerQuestion(text);
-    window.setTimeout(() => {
-      setMessages((m) => [
-        ...m,
-        { id: nextId.current++, role: "assistant", text: reply.answer, cta: reply.cta },
-      ]);
-      setTyping(false);
-    }, 450);
+    // The local matcher always supplies the CTA link, and the whole answer if
+    // /api/ask is unavailable (dev server, missing key, rate limit, outage).
+    const local = answerQuestion(text);
+    let answer = local.answer;
+    try {
+      const turns = history
+        .filter((m) => m.id !== GREETING.id)
+        .slice(-10)
+        .map((m) => ({ role: m.role, content: m.text }));
+      while (turns[0]?.role === "assistant") turns.shift();
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: turns }),
+      });
+      if (res.ok) answer = (await res.json()).answer ?? answer;
+    } catch {
+      /* offline — keep the local answer */
+    }
+
+    setMessages((m) => [...m, { id: nextId.current++, role: "assistant", text: answer, cta: local.cta }]);
+    setTyping(false);
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -97,7 +111,7 @@ const AskAI = () => {
               </span>
               <div className="leading-tight">
                 <p className="text-sm font-bold">Ask William's AI</p>
-                <p className="text-[11px] text-muted-foreground">Instant answers about William</p>
+                <p className="text-[11px] text-muted-foreground">Powered by Claude</p>
               </div>
               <button
                 onClick={() => setOpen(false)}
@@ -109,7 +123,7 @@ const AskAI = () => {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            <div ref={scrollRef} role="log" aria-live="polite" className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
               {messages.map((m) => (
                 <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
                   <div
@@ -186,6 +200,7 @@ const AskAI = () => {
                   aria-label="Ask a question about William"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                   autoComplete="off"
+                  maxLength={600}
                 />
                 <button
                   type="submit"
@@ -197,7 +212,7 @@ const AskAI = () => {
                 </button>
               </div>
               <p className="mt-1.5 text-center text-[10px] text-muted-foreground/70">
-                Runs locally on this site — no data leaves your browser.
+                AI answers from William's portfolio — may be imperfect; verify key details.
               </p>
             </form>
           </motion.div>

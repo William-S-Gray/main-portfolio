@@ -1,6 +1,6 @@
 import { projects } from "./projects";
 
-const SITE = "https://william-gray.netlify.app";
+const SITE = "https://www.williamgray.dev";
 
 const skills = Array.from(new Set(projects.flatMap((p) => p.techStack)));
 

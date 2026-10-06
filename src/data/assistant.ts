@@ -94,7 +94,7 @@ export const knowledgeBase: KbEntry[] = [
     id: "availability",
     keywords: ["available", "availability", "hire", "hiring", "job", "opportunit", "remote", "work with", "freelance", "open to", "recruit"],
     answer:
-      "Yes — William is open to opportunities: roles and projects in software engineering, full-stack, AI systems, and DevOps. The fastest way to reach him is the contact page or email.",
+      "Yes — William is open to full-time, contract, and freelance work in software engineering, full-stack, AI systems, and DevOps. He works remotely from Zimbabwe (CAT, UTC+2) and is open to hybrid, on-site, or relocation. The fastest way to reach him is the contact page or email.",
     cta: { label: "Get in touch", to: "/contact" },
   },
   {

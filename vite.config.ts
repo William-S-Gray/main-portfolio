@@ -2,11 +2,12 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
-import { componentTagger } from "lovable-tagger";
 import { posts } from "./src/data/posts";
 import { resume } from "./src/data/resume";
+import { projects } from "./src/data/projects";
+import { certificates } from "./src/data/certificates";
 
-const SITE = "https://william-gray.netlify.app";
+const SITE = "https://www.williamgray.dev";
 
 const escapeXml = (s: string) =>
   s.replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[c] as string));
@@ -41,10 +42,67 @@ ${items}
 `;
 }
 
-/** Emits /rss.xml and /resume.json into the build output. */
+function buildSitemap(): string {
+  const today = new Date().toISOString().slice(0, 10);
+  const urls: [path: string, priority: string, lastmod?: string][] = [
+    ["/", "1.0"],
+    ["/about", "0.9"],
+    ["/projects", "0.9"],
+    ["/certificates", "0.8"],
+    ["/blog", "0.8"],
+    ["/services", "0.7"],
+    ["/contact", "0.6"],
+    ...projects.map((p) => [`/projects/${p.id}`, "0.7"] as [string, string]),
+    ...posts.map((p) => [`/blog/${p.slug}`, "0.6", p.date] as [string, string, string]),
+  ];
+  const body = urls
+    .map(([loc, priority, lastmod = today]) =>
+      `  <url><loc>${SITE}${loc}</loc><lastmod>${lastmod}</lastmod><priority>${priority}</priority></url>`
+    )
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</urlset>
+`;
+}
+
+/** Plain-text knowledge base the /api/ask assistant answers from. Public info only. */
+function buildAiContext(): string {
+  const projectLines = projects.map((p) =>
+    [
+      `## ${p.title} (${SITE}/projects/${p.id})`,
+      p.description,
+      p.status ? `Status: ${p.status}` : p.liveUrl ? `Live: ${p.liveUrl}` : "",
+      `Category: ${p.category}. Tech: ${p.techStack.join(", ")}.`,
+      p.problem ? `Problem: ${p.problem}` : "",
+      p.role ? `Role: ${p.role}` : "",
+      p.features?.length ? `Features: ${p.features.join("; ")}.` : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
+  return [
+    "# Availability",
+    "Open to full-time, contract, and freelance work. Remote first, based in Zimbabwe (CAT, UTC+2); open to hybrid, on-site, or relocation.",
+    `Contact: ${resume.basics.email} or ${SITE}/contact. CV: ${SITE}/William%20S.%20Gray%20Professional%20CV.pdf`,
+    "# Resume (JSON Resume)",
+    JSON.stringify({ ...resume, $schema: undefined }),
+    "# Projects",
+    ...projectLines,
+    "# Certifications",
+    certificates.map((c) => `${c.title} — ${c.issuer} (${c.date})`).join("\n"),
+    "# Blog posts",
+    posts.map((p) => `${p.title} (${SITE}/blog/${p.slug}): ${p.excerpt}`).join("\n"),
+  ].join("\n\n");
+}
+
+/** Emits /rss.xml, /sitemap.xml, /resume.json and /ai-context.txt into the build output. */
 function staticFeeds(): Plugin {
   const write = (dir: string) => {
     fs.writeFileSync(path.join(dir, "rss.xml"), buildRss());
+    fs.writeFileSync(path.join(dir, "sitemap.xml"), buildSitemap());
+    fs.writeFileSync(path.join(dir, "ai-context.txt"), buildAiContext());
     fs.writeFileSync(path.join(dir, "resume.json"), JSON.stringify(resume, null, 2));
   };
   return {
@@ -58,7 +116,7 @@ function staticFeeds(): Plugin {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
@@ -68,7 +126,6 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
     staticFeeds(),
   ].filter(Boolean),
   resolve: {
@@ -82,7 +139,6 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           "react-vendor": ["react", "react-dom", "react-router-dom"],
           motion: ["framer-motion"],
-          query: ["@tanstack/react-query"],
         },
       },
     },
