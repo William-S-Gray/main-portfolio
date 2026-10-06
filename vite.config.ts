@@ -5,6 +5,7 @@ import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 import { posts } from "./src/data/posts";
 import { resume } from "./src/data/resume";
+import { projects } from "./src/data/projects";
 
 const SITE = "https://william-gray.netlify.app";
 
@@ -41,10 +42,36 @@ ${items}
 `;
 }
 
-/** Emits /rss.xml and /resume.json into the build output. */
+function buildSitemap(): string {
+  const today = new Date().toISOString().slice(0, 10);
+  const urls: [path: string, priority: string, lastmod?: string][] = [
+    ["/", "1.0"],
+    ["/about", "0.9"],
+    ["/projects", "0.9"],
+    ["/certificates", "0.8"],
+    ["/blog", "0.8"],
+    ["/services", "0.7"],
+    ["/contact", "0.6"],
+    ...projects.map((p) => [`/projects/${p.id}`, "0.7"] as [string, string]),
+    ...posts.map((p) => [`/blog/${p.slug}`, "0.6", p.date] as [string, string, string]),
+  ];
+  const body = urls
+    .map(([loc, priority, lastmod = today]) =>
+      `  <url><loc>${SITE}${loc}</loc><lastmod>${lastmod}</lastmod><priority>${priority}</priority></url>`
+    )
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</urlset>
+`;
+}
+
+/** Emits /rss.xml, /sitemap.xml and /resume.json into the build output. */
 function staticFeeds(): Plugin {
   const write = (dir: string) => {
     fs.writeFileSync(path.join(dir, "rss.xml"), buildRss());
+    fs.writeFileSync(path.join(dir, "sitemap.xml"), buildSitemap());
     fs.writeFileSync(path.join(dir, "resume.json"), JSON.stringify(resume, null, 2));
   };
   return {
@@ -82,7 +109,6 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           "react-vendor": ["react", "react-dom", "react-router-dom"],
           motion: ["framer-motion"],
-          query: ["@tanstack/react-query"],
         },
       },
     },

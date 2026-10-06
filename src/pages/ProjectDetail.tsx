@@ -5,39 +5,13 @@ import {
   ExternalLink,
   Github,
   CheckCircle2,
-  Stethoscope,
-  LayoutDashboard,
-  ShoppingBag,
-  Music,
-  Bot,
-  ShoppingCart,
-  ShieldCheck,
 } from "lucide-react";
+import { categoryColors, categoryIcons } from "@/lib/categories";
 import { projects } from "@/data/projects";
 import Seo from "@/components/Seo";
 import NotFound from "./NotFound";
 
 const SITE_URL = "https://william-gray.netlify.app";
-
-const categoryIcon: Record<string, React.ReactNode> = {
-  healthcare: <Stethoscope size={22} />,
-  management: <LayoutDashboard size={22} />,
-  marketplace: <ShoppingBag size={22} />,
-  entertainment: <Music size={22} />,
-  ai: <Bot size={22} />,
-  retail: <ShoppingCart size={22} />,
-  security: <ShieldCheck size={22} />,
-};
-
-const categoryColor: Record<string, string> = {
-  healthcare: "from-emerald-500 to-teal-600",
-  management: "from-blue-500 to-indigo-600",
-  marketplace: "from-orange-400 to-amber-500",
-  entertainment: "from-purple-500 to-pink-500",
-  ai: "from-cyan-500 to-sky-600",
-  retail: "from-green-500 to-emerald-600",
-  security: "from-orange-500 to-red-600",
-};
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -45,8 +19,8 @@ const ProjectDetail = () => {
 
   if (!project) return <NotFound />;
 
-  const gradient = categoryColor[project.category] ?? "from-primary to-primary/60";
-  const icon = categoryIcon[project.category];
+  const gradient = categoryColors[project.category] ?? "from-primary to-primary/60";
+  const icon = categoryIcons[project.category];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -95,6 +69,11 @@ const ProjectDetail = () => {
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-3 mb-10">
+            {project.inDevelopment && (
+              <span className="inline-flex items-center px-4 py-2 rounded-clay bg-amber-500/15 text-amber-700 dark:text-amber-300 text-sm font-semibold">
+                In development — not yet deployed
+              </span>
+            )}
             {project.liveUrl && (
               <a
                 href={project.liveUrl}

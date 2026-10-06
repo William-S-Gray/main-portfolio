@@ -16,6 +16,13 @@ const contactSchema = z.object({
 type FormData = z.infer<typeof contactSchema>;
 type Errors = Partial<Record<keyof FormData, string>>;
 
+const fields: { name: keyof FormData; label: string; type?: string; autoComplete?: string }[] = [
+  { name: "name", label: "Name", autoComplete: "name" },
+  { name: "email", label: "Email", type: "email", autoComplete: "email" },
+  { name: "subject", label: "Subject" },
+  { name: "message", label: "Message" },
+];
+
 const Contact = () => {
   const [form, setForm] = useState<FormData>({
     name: "",
@@ -124,17 +131,20 @@ const Contact = () => {
           {/* Contact Info */}
           <motion.div className="md:col-span-2 space-y-4">
             <div className="clay p-5 flex items-start gap-3">
-              <Mail size={18} className="text-primary mt-0.5" />
+              <Mail size={18} aria-hidden="true" className="text-primary mt-0.5" />
               <div>
                 <p className="font-semibold text-sm">Email</p>
-                <p className="text-sm text-muted-foreground">
+                <a
+                  href="mailto:graywilliamwiltino@gmail.com"
+                  className="text-sm text-muted-foreground hover:text-primary underline-offset-2 hover:underline break-all"
+                >
                   graywilliamwiltino@gmail.com
-                </p>
+                </a>
               </div>
             </div>
 
             <div className="clay p-5 flex items-start gap-3">
-              <MapPin size={18} className="text-primary mt-0.5" />
+              <MapPin size={18} aria-hidden="true" className="text-primary mt-0.5" />
               <div>
                 <p className="font-semibold text-sm">Location</p>
                 <p className="text-sm text-muted-foreground">
@@ -169,7 +179,7 @@ const Contact = () => {
           {/* Form */}
           <motion.div className="md:col-span-3">
             {submitted ? (
-              <div className="clay p-10 text-center">
+              <div role="status" className="clay p-10 text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <Send size={24} className="text-primary" />
                 </div>
@@ -186,68 +196,39 @@ const Contact = () => {
                 className="clay p-7 space-y-5"
                 noValidate
               >
-                <input
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  aria-label="Your name"
-                  aria-invalid={!!errors.name}
-                  placeholder="Your Name"
-                  value={form.name}
-                  onChange={handleChange}
-                  className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50"
-                />
-                {errors.name && (
-                  <p className="text-xs text-destructive">{errors.name}</p>
-                )}
-
-                <input
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  aria-label="Your email address"
-                  aria-invalid={!!errors.email}
-                  placeholder="Your Email"
-                  value={form.email}
-                  onChange={handleChange}
-                  className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50"
-                />
-                {errors.email && (
-                  <p className="text-xs text-destructive">{errors.email}</p>
-                )}
-
-                <input
-                  name="subject"
-                  type="text"
-                  aria-label="Subject"
-                  aria-invalid={!!errors.subject}
-                  placeholder="Subject"
-                  value={form.subject}
-                  onChange={handleChange}
-                  className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50"
-                />
-                {errors.subject && (
-                  <p className="text-xs text-destructive">{errors.subject}</p>
-                )}
-
-                <textarea
-                  name="message"
-                  rows={5}
-                  aria-label="Your message"
-                  aria-invalid={!!errors.message}
-                  placeholder="Your Message"
-                  value={form.message}
-                  onChange={handleChange}
-                  className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50 resize-none"
-                />
-                {errors.message && (
-                  <p className="text-xs text-destructive">{errors.message}</p>
-                )}
+                {fields.map((f) => {
+                  const Tag = f.name === "message" ? "textarea" : "input";
+                  return (
+                    <div key={f.name}>
+                      <label htmlFor={`contact-${f.name}`} className="block text-sm font-semibold mb-1.5">
+                        {f.label}
+                      </label>
+                      <Tag
+                        id={`contact-${f.name}`}
+                        name={f.name}
+                        {...(Tag === "input" ? { type: f.type ?? "text" } : { rows: 5 })}
+                        autoComplete={f.autoComplete}
+                        required
+                        aria-invalid={!!errors[f.name]}
+                        aria-describedby={errors[f.name] ? `contact-${f.name}-error` : undefined}
+                        value={form[f.name]}
+                        onChange={handleChange}
+                        className="w-full clay-inset px-4 py-3 rounded-clay bg-transparent outline-none focus:ring-2 focus:ring-ring/50 resize-none"
+                      />
+                      {errors[f.name] && (
+                        <p id={`contact-${f.name}-error`} role="alert" className="mt-1.5 text-xs text-destructive">
+                          {errors[f.name]}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-clay bg-primary text-white font-semibold flex items-center justify-center gap-2"
+                  aria-busy={loading}
+                  className="w-full py-3 rounded-clay bg-primary text-primary-foreground font-semibold flex items-center justify-center gap-2 disabled:opacity-70"
                 >
                   <Send size={16} />
                   {loading ? "Sending..." : "Send Message"}

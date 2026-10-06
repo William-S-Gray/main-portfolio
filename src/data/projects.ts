@@ -3,11 +3,15 @@ export interface Project {
   title: string;
   description: string;
   techStack: string[];
-  category: "healthcare" | "management" | "marketplace" | "entertainment" | "ai" | "retail" | "security";
+  category: "healthcare" | "management" | "marketplace" | "entertainment" | "ai" | "retail" | "security" | "emergency";
   githubUrl?: string;
   liveUrl?: string;
   /** Optional screenshot in /public/projects. When omitted, a branded gradient placeholder is shown. */
   image?: string;
+  /** Not deployed yet — shows an "In development" badge instead of a live link. */
+  inDevelopment?: boolean;
+  /** Shown in the homepage "Featured work" section. */
+  featured?: boolean;
   /** Case-study detail — powers /projects/:id. */
   problem?: string;
   role?: string;
@@ -17,6 +21,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "pathoguide",
+    featured: true,
     title: "PathoGuide",
     description: "A professional clinical decision support system designed to optimize antibiotic prescribing based on real-time local resistance data from Mutare. Revolutionizing antimicrobial stewardship.",
     techStack: ["React", "TypeScript", "Node.js", "Data Analytics"],
@@ -34,6 +39,7 @@ export const projects: Project[] = [
   },
   {
     id: "campusiq",
+    featured: true,
     title: "CampusIQ",
     description: "A modern, all-in-one school management platform that streamlines administration, empowers teachers, and engages students with real-time academic tracking and analytics.",
     techStack: ["React", "Spring Boot", "PostgreSQL", "JWT"],
@@ -185,10 +191,12 @@ export const projects: Project[] = [
   },
   {
     id: "aegis",
+    featured: true,
     title: "Aegis – Vehicle Access Management",
     description: "An AI-powered intelligent vehicle access management system combining license plate recognition with role-based access control and real-time alerts. Supports IP cameras and mobile phones with a modern neumorphic UI.",
     techStack: ["React", "TypeScript", "Python", "OpenCV", "AI/ML"],
     category: "security",
+    liveUrl: "https://aegis-eight-snowy.vercel.app/",
     image: "/projects/aegis.webp",
     problem:
       "Manual vehicle access control is slow, error-prone, and hard to audit across multiple entry points.",
@@ -198,6 +206,43 @@ export const projects: Project[] = [
       "Role-based access control",
       "Real-time entry alerts",
       "IP-camera & mobile-phone support",
+    ],
+  },
+  {
+    id: "zoe-campus",
+    title: "4Life Zoe Digital Campus",
+    description: "The digital platform for 4Life Zoe, a vocational and technical training institution in Liberia. A public website where prospective students apply, plus a role-based campus platform covering admissions, enrollment, fee plans, payments, attendance, and a live executive dashboard.",
+    techStack: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Docker"],
+    category: "management",
+    liveUrl: "https://zoe-campus.vercel.app/",
+    problem:
+      "Admissions, fees, payments, and attendance at a growing vocational institution lived in separate places, leaving leadership without a single, current view of the campus.",
+    role: "Full-stack design & development",
+    features: [
+      "Online applications with admissions review & approval",
+      "Enrollment by program and cycle, with tuition fee plans",
+      "Payment and attendance recording",
+      "Mobile-friendly live executive dashboard",
+      "Argon2id + HTTP-only JWT auth with DB-backed RBAC",
+    ],
+  },
+  {
+    id: "erdms",
+    title: "ERDMS – Emergency Response & Dispatch",
+    description: "One incident record shared by everyone in an emergency — the citizen who asks for help, the dispatcher, the field officer who arrives, and the administrator. Built for Liberia and comparable African environments: mobile-first, low-bandwidth, offline-tolerant, and multi-agency.",
+    techStack: ["Next.js", "FastAPI", "PostgreSQL", "PostGIS", "Redis", "Celery"],
+    category: "emergency",
+    inDevelopment: true,
+    problem:
+      "Emergency response in low-connectivity environments breaks down across agencies and channels: requests get lost, responders lack a shared picture, and there's no trustworthy record of what happened.",
+    role: "Full-stack design & development",
+    features: [
+      "Citizen, dispatcher, field-officer & admin experiences on one incident record",
+      "USSD, SMS, voice and web all feed the same incident engine",
+      "PostGIS nearest-unit search as dispatcher decision support",
+      "Offline queueing with sync and conflict handling",
+      "Append-only emergency history and audit trail",
+      "Categories, unit types and agencies configurable without a deploy — fire is the first use case",
     ],
   },
 ];
