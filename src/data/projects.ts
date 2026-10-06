@@ -33,6 +33,7 @@ export const projects: Project[] = [
     techStack: ["React", "TypeScript", "Node.js", "Express", "Prisma", "PostgreSQL", "FastAPI"],
     category: "healthcare",
     liveUrl: "https://pathoguide-frontend.onrender.com/",
+    image: "/projects/pathoguide.webp",
     problem:
       "Clinicians often prescribe antibiotics without visibility into local resistance patterns, accelerating antimicrobial resistance and worsening patient outcomes.",
     role: "Full-stack design & development",
@@ -62,6 +63,7 @@ export const projects: Project[] = [
     techStack: ["React", "Spring Boot", "PostgreSQL", "JWT"],
     category: "management",
     liveUrl: "https://edunext-app-f.onrender.com",
+    image: "/projects/campusiq.webp",
     problem:
       "Schools juggle administration, teaching, and student engagement across disconnected tools that don't talk to each other.",
     role: "Full-stack design & development",
@@ -75,16 +77,19 @@ export const projects: Project[] = [
   {
     id: "meal-pass",
     title: "Meal Pass",
-    description: "Take control of your nutrition with this intelligent meal management system. Track individual meals, manage dietary goals, and streamline dining with QR-code integration.",
-    techStack: ["React", "Vite", "PWA", "Firebase"],
+    description: "A smart employee feeding system for Africa Accommodation Providers (AAP). Scannable QR and barcode meal IDs verify each employee's eligibility at the checkpoint, block double feeding in real time, and give admins live reports.",
+    techStack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
     category: "management",
+    githubUrl: "https://github.com/William-S-Gray/meal-pass",
     liveUrl: "https://meal-pass-frontend.onrender.com",
+    problem:
+      "Meals are served only to eligible employees, but paper checks make it hard to catch expired access or the same person being fed twice — and leave no reliable record.",
     role: "Full-stack design & development",
     features: [
-      "Individual meal tracking",
-      "Dietary goal management",
-      "QR-code meal redemption",
-      "Installable PWA with offline support",
+      "Employee meal IDs with QR code + barcode",
+      "Checkpoint scan verifies identity, validity period and whether already fed",
+      "ATM-style ID cards — bulk printing up to 40 per sheet",
+      "Daily, weekly & date-range reports with CSV/PDF export",
     ],
   },
   {
@@ -94,6 +99,7 @@ export const projects: Project[] = [
     techStack: ["React", "Three.js", "Express", "MongoDB"],
     category: "management",
     liveUrl: "https://frontend-nz41.onrender.com",
+    image: "/projects/davison-motors.webp",
     role: "Full-stack design & development",
     features: [
       "Dealership inventory management",
