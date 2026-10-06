@@ -14,7 +14,6 @@ Personal portfolio of **William S. Gray**, Software Engineer & AI Full-Stack Sys
 - **Validation:** Zod
 - **Email:** EmailJS
 - **Theming:** next-themes (light / dark)
-- **AI assistant:** Claude (Anthropic SDK) via a Vercel function
 - **Analytics:** Vercel Web Analytics
 
 ## Features
@@ -23,7 +22,7 @@ Personal portfolio of **William S. Gray**, Software Engineer & AI Full-Stack Sys
 - 📱 Fully responsive across mobile, tablet, and desktop
 - 🗂️ Filterable project gallery with branded gradient placeholders for projects without screenshots
 - ✉️ Contact form with client-side validation, EmailJS delivery, toast feedback, and a honeypot spam trap
-- 🤖 "Ask my AI" chat answered by Claude from the site's own data (`api/ask.ts`), falling back to an offline keyword matcher
+- 🤖 "Ask my AI" chat answered offline from a local knowledge base (`src/data/assistant.ts`) — no API calls
 - 📚 Case studies with architecture, key decisions, and measured results
 - ⚡ Route-level code splitting for fast initial loads
 - 🔍 SEO: per-route meta, Open Graph, Twitter cards, JSON-LD (`ProfilePage`/`Person`), sitemap & robots
@@ -44,8 +43,6 @@ npm run lint      # lint
 ## Project Structure
 
 ```
-api/
-└── ask.ts          # Vercel function: "Ask my AI" (Claude)
 public/
 ├── projects/       # project screenshots
 └── robots.txt
@@ -67,11 +64,7 @@ vercel.json         # SPA fallback for deep links
 
 ## Deployment
 
-Deployed on Vercel at https://www.williamgray.dev. `vercel.json` rewrites every non-`/api` path to `index.html` so deep links (`/about`, `/projects/…`) resolve on direct hits and crawls. The build also emits `sitemap.xml`, `rss.xml`, `resume.json`, and `ai-context.txt` (the assistant's knowledge base) from `src/data`.
-
-Environment variables (Vercel project settings):
-
-- `ANTHROPIC_API_KEY` — enables Claude answers in "Ask my AI". Without it the widget uses its offline answers. Set a monthly spend limit in the Anthropic Console.
+Deployed on Vercel at https://www.williamgray.dev. `vercel.json` rewrites every path to `index.html` so deep links (`/about`, `/projects/…`) resolve on direct hits and crawls. The build also emits `sitemap.xml`, `rss.xml`, and `resume.json` from `src/data`.
 
 ## License
 
