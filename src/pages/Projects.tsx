@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Stethoscope,
   LayoutDashboard,
@@ -117,13 +117,12 @@ const Projects = () => {
         </div>
 
         {/* Grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <h2 className="sr-only">Project list</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((p) => (
+            <ProjectCard key={p.id} project={p} />
+          ))}
+        </div>
       </div>
     </section>
   );

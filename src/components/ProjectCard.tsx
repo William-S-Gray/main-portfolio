@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight, Github } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
@@ -10,18 +9,14 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const cardIcon = categoryIcons[project.category];
 
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.35 }}
-      className="clay overflow-hidden clay-hover group"
-    >
+    <article className="clay overflow-hidden clay-hover group animate-fade-in">
       <div className="relative overflow-hidden h-48">
         {project.image ? (
           <img
             src={project.image}
+            // Cards render up to ~400px wide; the 800px variant (public/projects/*-sm.webp) covers 2x screens.
+            srcSet={`${project.image.replace(/\.webp$/, "-sm.webp")} 800w, ${project.image} 1200w`}
+            sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
             alt={`${project.title} preview`}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
@@ -103,7 +98,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };
 
