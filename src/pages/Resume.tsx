@@ -18,8 +18,14 @@ const fmt = (d?: string) => {
 const range = (start?: string, end?: string) =>
   !start ? "" : start === end ? fmt(start) : `${fmt(start)} – ${end ? fmt(end) : "Present"}`;
 
-// Top built projects in the Projects page order — keeps the printed résumé to two pages.
-const shipped = projects.filter((p) => p.status !== "concept").slice(0, 8);
+// Top built projects in the Projects page order, plus pinned ones (strong case
+// studies even without a live link). Capped at 8 so the printed résumé stays two pages.
+const PINNED = ["erdms"];
+const built = projects.filter((p) => p.status !== "concept");
+const shipped = [
+  ...built.filter((p) => !PINNED.includes(p.id)).slice(0, 8 - PINNED.length),
+  ...built.filter((p) => PINNED.includes(p.id)),
+];
 // Hand-picked for relevance to engineering roles; the full list lives on /certificates.
 const HIGHLIGHT_CERTS = [
   "software-architecture",
