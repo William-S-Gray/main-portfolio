@@ -41,7 +41,7 @@ export const statusBadge = {
   concept: {
     label: "Concept",
     detail: "Concept build — not a production deployment",
-    className: "bg-muted text-muted-foreground",
+    className: "bg-muted text-foreground/80",
   },
 } as const;
 

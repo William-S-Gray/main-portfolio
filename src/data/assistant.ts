@@ -20,9 +20,50 @@ export interface KbEntry {
   cta?: { label: string; to: string; external?: boolean };
 }
 
-const projectTitles = projects.map((p) => p.title).join(", ");
-const aiProjects = projects.filter((p) => p.category === "ai").map((p) => p.title);
-const techset = Array.from(new Set(projects.flatMap((p) => p.techStack)));
+// Concept builds are left out of counts, highlights and tech — answers should hold up when checked.
+const built = projects.filter((p) => p.status !== "concept");
+const highlights = built.slice(0, 6).map((p) => p.title.split(" – ")[0]).join(", ");
+const techset = Array.from(new Set(built.flatMap((p) => p.techStack)));
+
+/** Extra names people use for a project, beyond its title and id. */
+const PROJECT_ALIASES: Record<string, string[]> = {
+  "zoe-campus": ["zoe"],
+  "sacred-heart-sms": ["sacred heart"],
+  "job-pilot-ai": ["job pilot", "jobpilot"],
+  "tune-wise": ["tunewise", "tune wise"],
+  "meal-pass": ["mealpass"],
+  "davison-motors": ["davison"],
+  pharmtrack: ["pharmconnect", "pharmtrack"],
+  "smartmart-pos": ["smartmart"],
+  "safechoice-plus": ["safechoice", "safe choice"],
+  "meditriage-ai": ["meditriage"],
+};
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const projectMatchers = projects.map((p) => {
+  const base = p.title.split(/ – | \(/)[0].replace("°", "").toLowerCase().trim();
+  const names = [base, p.id.replace(/-/g, " "), ...(PROJECT_ALIASES[p.id] ?? [])];
+  return { project: p, re: new RegExp(`\\b(${names.map(escapeRe).join("|")})\\b`) };
+});
+
+/** A question that names a project gets that project's own answer. */
+function projectAnswer(raw: string): AssistantReply | null {
+  const hit = projectMatchers.find((m) => m.re.test(raw))?.project;
+  if (!hit) return null;
+  const status =
+    hit.status === "concept"
+      ? " (This one is an early concept build.)"
+      : hit.status === "in-development"
+        ? " (Currently in development.)"
+        : hit.liveUrl
+          ? " There's a live demo linked from the case study."
+          : "";
+  return {
+    answer: `${hit.title}: ${hit.description}${status}`,
+    cta: { label: `${hit.title.split(" – ")[0]} case study`, to: `/projects/${hit.id}` },
+    matched: true,
+  };
+}
 
 export const knowledgeBase: KbEntry[] = [
   {
@@ -41,26 +82,17 @@ export const knowledgeBase: KbEntry[] = [
   },
   {
     id: "projects",
-    keywords: ["project", "projects", "built", "build", "work", "portfolio", "systems", "apps", "applications", "case study", "case studies"],
+    keywords: ["project", "projects", "built", "build", "work", "portfolio", "systems", "apps", "applications", "case study", "case studies", "strongest", "best", "flagship", "favourite", "favorite"],
     answer:
-      `William has built ${projects.length}+ systems across healthcare, education, marketplaces, security, and more — including ${projectTitles}. Each has a full case study covering the problem, his role, and key features.`,
+      `William has built ${built.length} systems across healthcare, education, emergency response, security, retail and more. Highlights: ${highlights} — most with live demos, and each with a case study covering the problem, his role and key features. Ask me about any of them by name.`,
     cta: { label: "Browse projects", to: "/projects" },
   },
   {
     id: "ai",
-    keywords: ["ai", "artificial intelligence", "machine learning", "ml", "llm", "model", "intelligent", "automation"],
+    keywords: ["ai", "artificial intelligence", "machine learning", "ml", "llm", "model", "intelligent", "automation", "ai work", "with ai", "ai projects", "computer vision", "xgboost"],
     answer:
-      aiProjects.length > 0
-        ? `Yes — AI is core to William's work. AI-focused projects include ${aiProjects.join(", ")}, and he applies data analytics and intelligent automation across others (for example, PathoGuide's real-time antibiotic-resistance analytics). His positioning is literally "AI & Full-Stack Systems Builder."`
-        : "AI is core to William's work — he builds AI-powered and data-driven systems alongside full-stack applications.",
+      "Yes — AI is core to William's work, used where it earns its place. ClaimGuard 360° scores medical-aid claims with an XGBoost + IsolationForest ensemble and explains every decision with SHAP. Aegis reads number plates with ONNX models and sends uncertain reads to a human. PathoGuide gives AI-assisted treatment recommendations from local resistance data, and Job Pilot AI (in development) is an evidence-checked job-application copilot.",
     cta: { label: "See AI projects", to: "/projects" },
-  },
-  {
-    id: "pathoguide",
-    keywords: ["pathoguide", "clinical", "antibiotic", "health", "healthcare", "medical", "resistance"],
-    answer:
-      "PathoGuide is a clinical decision-support system that optimizes antibiotic prescribing using real-time local resistance data from Mutare — helping clinicians fight antimicrobial resistance. William designed and built it full-stack.",
-    cta: { label: "PathoGuide case study", to: "/projects/pathoguide" },
   },
   {
     id: "education",
@@ -163,6 +195,9 @@ export interface AssistantReply {
 export function answerQuestion(question: string): AssistantReply {
   const tokens = tokenize(question);
   const raw = question.toLowerCase();
+
+  const named = projectAnswer(raw);
+  if (named) return named;
 
   let best: KbEntry | null = null;
   let bestScore = 0;

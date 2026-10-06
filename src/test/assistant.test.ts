@@ -15,7 +15,27 @@ describe("offline assistant routing", () => {
     ["Did he intern anywhere?", "Open résumé"],
     ["Can I see his CV?", "Open résumé"],
     ["Was he a GDSC lead?", "More on leadership"],
+    ["Does he do AI work?", "See AI projects"],
+    ["Does he work with AI?", "See AI projects"],
+    ["Has he done any machine learning?", "See AI projects"],
+    ["Tell me about PathoGuide", "PathoGuide case study"],
+    ["What is ClaimGuard?", "ClaimGuard 360° case study"],
+    ["tell me about the sacred heart system", "Sacred Heart School Management System case study"],
+    ["Is Zoe campus live?", "4Life Zoe Digital Campus case study"],
+    ["What is his strongest project?", "Browse projects"],
   ])("%s → %s", (q, cta) => {
     expect(answerQuestion(q).cta?.label).toBe(cta);
+  });
+});
+
+describe("offline assistant honesty", () => {
+  it("counts and lists only built projects, not concepts", () => {
+    const a = answerQuestion("What projects has he built?").answer;
+    expect(a).not.toMatch(/EchoStream|MediFlow|AgriConnect|MediTriage/);
+    expect(answerQuestion("What tech does he use?").answer).not.toMatch(/Stripe|Twilio|Supabase|OpenAI/);
+  });
+
+  it("flags concept projects when asked about one", () => {
+    expect(answerQuestion("what's echostream").answer).toContain("early concept build");
   });
 });
