@@ -2,12 +2,20 @@ import { projects } from "./projects";
 
 const SITE = "https://www.williamgray.dev";
 
-const skills = Array.from(new Set(projects.flatMap((p) => p.techStack)));
+/** "Message on WhatsApp" link. The number isn't printed anywhere on the site. */
+export const WHATSAPP_URL =
+  "https://wa.me/263786654578?text=" + encodeURIComponent("Hi William, I found you through williamgray.dev");
+
+export const availability = {
+  engagement: "Full-time, contract & freelance",
+  location: "Remote · Zimbabwe, CAT (UTC+2)",
+  detail: "Remote first; open to hybrid, on-site, or relocation.",
+};
 
 /**
- * Machine-readable résumé following the JSON Resume schema
- * (https://jsonresume.org/schema/). Emitted to /resume.json at build so
- * ATS systems, AI parsers, and other tools can read William structurally.
+ * William's résumé — the single source for /resume, the About page, and
+ * /resume.json (JSON Resume schema, https://jsonresume.org/schema/), so ATS
+ * systems, AI parsers and people all read the same, current facts.
  */
 export const resume = {
   $schema: "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
@@ -17,7 +25,7 @@ export const resume = {
     email: "graywilliamwiltino@gmail.com",
     url: `${SITE}/`,
     summary:
-      "Software Engineer and AI & Full-Stack Systems Builder from Liberia, educated in Zimbabwe. I design and ship scalable full-stack applications, AI-powered systems, and cloud-native infrastructure — turning complex, real-world problems into reliable software. Founder of WillNova Technologies.",
+      "Software engineer from Liberia and Computer Science graduate of Africa University (2026). I design and ship full-stack applications, AI-powered systems and cloud-native infrastructure for real-world problems — from emergency dispatch and clinical decision support to school, campus and access-control platforms. I own systems end to end: understanding the problem, designing the architecture, writing the code and tests, and deploying it. Industry experience at NetOne, founder of WillNova Technologies, and former President of Google Developer Student Clubs at Africa University.",
     location: { city: "Mutare", countryCode: "ZW", region: "Manicaland" },
     profiles: [
       { network: "GitHub", username: "William-S-Gray", url: "https://github.com/William-S-Gray" },
@@ -34,7 +42,58 @@ export const resume = {
       position: "Founder & Software Engineer",
       url: "https://willnova.vercel.app/",
       summary:
-        "Founder of WillNova Technologies — building software and digital solutions under the philosophy “Innovate. Build. Elevate.” Take products from concept to shipped, from clinical decision tools to school management platforms.",
+        "Technology startup turning ideas and operational challenges into scalable digital products for businesses, institutions and startups — “Innovate. Build. Elevate.”",
+      highlights: [
+        "Take products from requirements to deployed system: architecture, build, delivery and post-launch support",
+        "Built systems across healthcare, education, emergency response, security and retail",
+      ],
+    },
+    {
+      name: "NetOne Private Limited",
+      position: "Software Developer Intern / Attachee",
+      location: "Zimbabwe",
+      startDate: "2025-10",
+      endDate: "2026-06",
+      highlights: [
+        "Developed and maintained web applications using React, Java, MySQL, MongoDB and PostgreSQL",
+        "Took part in system design, testing and implementation of enterprise software",
+        "Reviewed websites and recommended usability and performance improvements",
+        "Provided application support and troubleshooting for internal systems",
+        "Worked with developers and stakeholders to deliver reliable, scalable solutions",
+      ],
+    },
+  ],
+  volunteer: [
+    {
+      organization: "Google Developer Student Clubs (GDSC), Africa University",
+      position: "President",
+      startDate: "2023",
+      endDate: "2025",
+      highlights: [
+        "Led a community of 100+ student developers",
+        "Organised technical workshops, hackathons and software development bootcamps",
+        "Mentored student teams building real-world software and AI solutions",
+      ],
+    },
+    {
+      organization: "Africa University Student Union Parliament",
+      position: "Deputy Speaker",
+      startDate: "2024",
+      endDate: "2025",
+      highlights: [
+        "Supported governance and digital transformation initiatives",
+        "Facilitated communication between students and university administration",
+      ],
+    },
+    {
+      organization: "For Life Zoe Academy",
+      position: "Web Development Tutor",
+      startDate: "2021",
+      endDate: "2021",
+      highlights: [
+        "Trained 30+ students in modern web development, improving course completion rates by 60%",
+        "Designed a practical, project-based curriculum focused on real-world application development",
+      ],
     },
   ],
   education: [
@@ -43,25 +102,21 @@ export const resume = {
       area: "Computer Science",
       studyType: "BSc (Honours)",
       location: "Mutare, Zimbabwe",
+      endDate: "2026-06",
     },
   ],
   skills: [
-    { name: "Full-Stack Engineering", keywords: skills },
-    { name: "AI & Data", keywords: ["AI Systems", "Data Analytics", "Automation"] },
-    { name: "DevOps & Cloud", keywords: ["CI/CD", "Cloud-Native", "Deployment"] },
+    { name: "Languages", keywords: ["TypeScript", "JavaScript", "Python", "Java"] },
+    { name: "Frontend", keywords: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3"] },
+    { name: "Backend", keywords: ["Node.js", "Express", "FastAPI", "Flask", "Django", "Spring Boot"] },
+    { name: "Data", keywords: ["PostgreSQL", "PostGIS", "MySQL", "MongoDB", "Redis", "Prisma", "SQLAlchemy"] },
+    { name: "DevOps & Cloud", keywords: ["Docker", "Kubernetes", "GitHub Actions CI/CD", "Linux", "Vercel", "Render"] },
+    { name: "AI & Automation", keywords: ["AI-powered systems", "OpenCV", "ONNX", "n8n", "Prompt engineering"] },
+    { name: "Testing", keywords: ["pytest", "Jest", "Vitest", "Playwright", "Cypress", "Postman"] },
+    { name: "Practices", keywords: ["System design", "REST APIs", "Microservices", "Auth & RBAC", "Agile / SDLC"] },
   ],
-  awards: [
-    {
-      title: "Google Developer Student Clubs (GDSC) Lead",
-      awarder: "Google / Africa University",
-      summary: "Led the GDSC chapter for 2023/2024.",
-    },
-    {
-      title: "Deputy Speaker, Student Union Parliament",
-      awarder: "Africa University",
-      summary: "Served as Deputy Speaker of the Africa University Student Union Parliament, 2024.",
-    },
-  ],
+  languages: [{ language: "English", fluency: "Fluent" }],
+  references: [{ name: "Available on request", reference: "Academic and industry references available on request." }],
   projects: projects.map((p) => ({
     name: p.title,
     description: p.description,
@@ -71,6 +126,6 @@ export const resume = {
   })),
   meta: {
     canonical: `${SITE}/resume.json`,
-    version: "1.0.0",
+    version: "2.0.0",
   },
 } as const;

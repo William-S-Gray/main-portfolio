@@ -13,6 +13,7 @@ const links = [
   { to: "/projects", label: "Projects" },
   { to: "/certificates", label: "Certificates" },
   { to: "/blog", label: "Blog" },
+  { to: "/resume", label: "Résumé" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -31,7 +32,7 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4 print:hidden">
       <nav aria-label="Primary" className="container mx-auto max-w-6xl">
         <div className="clay-sm flex items-center justify-between px-6 py-3">
           <Link to="/" aria-label="William S. Gray — home" className="font-heading text-xl font-extrabold text-gradient">

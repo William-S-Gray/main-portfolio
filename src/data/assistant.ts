@@ -66,15 +66,22 @@ export const knowledgeBase: KbEntry[] = [
     id: "education",
     keywords: ["education", "study", "studied", "degree", "university", "school", "college", "africa university", "qualification", "academic"],
     answer:
-      "William holds a BSc (Honours) in Computer Science from Africa University in Mutare, Zimbabwe. He's originally from Liberia.",
+      "William holds a BSc (Honours) in Computer Science from Africa University in Mutare, Zimbabwe, graduating in June 2026. He's originally from Liberia.",
     cta: { label: "About & education", to: "/about" },
   },
   {
     id: "leadership",
     keywords: ["leadership", "lead", "gdsc", "google", "developer student", "speaker", "parliament", "union", "community", "role"],
     answer:
-      "Beyond engineering, William was the Google Developer Student Clubs (GDSC) Lead for 2023/2024 and served as Deputy Speaker of the Africa University Student Union Parliament in 2024 — leading technical communities and student governance.",
+      "William was President of Google Developer Student Clubs (GDSC) at Africa University from 2023 to 2025, leading 100+ student developers through workshops, hackathons and bootcamps and mentoring teams building real software and AI projects. He was also Deputy Speaker of the Student Union Parliament (2024–2025), and in 2021 he tutored 30+ students in web development, improving course completion by 60%.",
     cta: { label: "More on leadership", to: "/about" },
+  },
+  {
+    id: "experience",
+    keywords: ["experience", "work experience", "work history", "netone", "intern", "internship", "attachment", "attachee", "industry", "worked", "employer", "employment", "years"],
+    answer:
+      "William was a Software Developer Intern at NetOne in Zimbabwe (Oct 2025 – Jun 2026), building and maintaining web applications with React, Java, MySQL, MongoDB and PostgreSQL and taking part in system design, testing and enterprise delivery. He also founded WillNova Technologies, where he builds products end to end for clients — and his project case studies show production-minded work like load testing, CI pipelines and failure drills.",
+    cta: { label: "Open résumé", to: "/resume" },
   },
   {
     id: "willnova",
@@ -106,9 +113,9 @@ export const knowledgeBase: KbEntry[] = [
   },
   {
     id: "cv",
-    keywords: ["cv", "resume", "download", "curriculum"],
-    answer: "You can download William's full CV as a PDF from the homepage — it covers his experience, education, projects, and skills in detail.",
-    cta: { label: "Go to homepage", to: "/" },
+    keywords: ["cv", "resume", "résumé", "download", "curriculum", "pdf"],
+    answer: "William's résumé is always up to date on the résumé page — experience, projects, skills, leadership, education and certifications — and you can save it as a PDF from there in one click.",
+    cta: { label: "Open résumé", to: "/resume" },
   },
   {
     id: "location",

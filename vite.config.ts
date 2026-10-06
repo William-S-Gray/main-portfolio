@@ -54,6 +54,7 @@ const routes: Route[] = [
   { path: "/blog", priority: "0.8", page: "Blog" },
   { path: "/services", priority: "0.7", page: "Services" },
   { path: "/contact", priority: "0.6", page: "Contact" },
+  { path: "/resume", priority: "0.9", page: "Resume" },
   // Titles/descriptions mirror the <Seo> props in ProjectDetail.tsx and BlogPost.tsx.
   ...projects.map((p) => ({
     path: `/projects/${p.id}`,

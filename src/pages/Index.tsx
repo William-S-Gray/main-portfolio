@@ -1,13 +1,50 @@
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowRight, Download, Github, Linkedin, Facebook, Instagram } from "lucide-react";
+import { ArrowDown, ArrowRight, FileText, CheckCircle2, GraduationCap, Briefcase, Rocket, Users, Building2, Code2, Mail, MessageCircle, Github, Linkedin, Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import ImpactStats from "@/components/ImpactStats";
 import GitHubActivity from "@/components/GitHubActivity";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
+import { WHATSAPP_URL } from "@/data/resume";
 
 const featured = projects.filter((p) => p.featured);
+
+const credentials = [
+  { icon: GraduationCap, label: "BSc Computer Science · Africa University '26" },
+  { icon: Briefcase, label: "Software Developer Intern · NetOne" },
+  { icon: Rocket, label: "Founder · WillNova Technologies" },
+  { icon: Users, label: "GDSC President · 100+ developers" },
+];
+
+const audiences = [
+  {
+    icon: Building2,
+    eyebrow: "Hiring for your team",
+    title: "An engineer who owns the whole system",
+    points: [
+      "Ships end to end — architecture, code, tests, deployment and support",
+      "Production habits: CI pipelines, load tests, failure drills and audit trails (see the ERDMS case study)",
+      "Industry experience building enterprise systems at NetOne",
+      "Leads and communicates — ran a 100+ member developer community as GDSC President",
+    ],
+    primary: { label: "View résumé", to: "/resume" },
+    secondary: { label: "Contact me", to: "/contact" },
+  },
+  {
+    icon: Code2,
+    eyebrow: "Building a product",
+    title: "A partner from idea to launch",
+    points: [
+      "Custom web platforms, management systems, APIs and AI features",
+      "Built for real conditions — mobile-first, low bandwidth, offline-tolerant",
+      "Already shipped for clinics, schools, campuses, security and retail",
+      "Clear scope, regular demos, and support after launch",
+    ],
+    primary: { label: "See services", to: "/services" },
+    secondary: { label: "Start a project", to: "/contact" },
+  },
+];
 
 const socials = [
   { icon: Github, href: "https://github.com/William-S-Gray", label: "GitHub" },
@@ -43,9 +80,16 @@ const Index = () => (
           <p className="text-lg text-muted-foreground mb-2 font-medium">
             Software Engineer · AI &amp; Full-Stack Systems Builder · DevOps
           </p>
-          <p className="text-muted-foreground max-w-lg mx-auto lg:mx-0 mb-8">
-            I design and ship scalable full-stack applications, AI-powered systems, and cloud-native infrastructure — turning complex problems into reliable, elegant software.
+          <p className="text-muted-foreground max-w-lg mx-auto lg:mx-0 mb-5">
+            I design and ship full-stack applications, AI-powered systems, and cloud-native infrastructure — and I own them end to end, from the first conversation to a tested, deployed product.
           </p>
+          <ul className="flex flex-wrap justify-center lg:justify-start gap-2 mb-8 list-none p-0">
+            {credentials.map((c) => (
+              <li key={c.label} className="inline-flex items-center gap-1.5 clay-sm px-3 py-1.5 text-xs font-medium text-foreground">
+                <c.icon size={14} className="text-primary" aria-hidden="true" /> {c.label}
+              </li>
+            ))}
+          </ul>
 
           <div className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-10">
             <Link
@@ -60,13 +104,12 @@ const Index = () => (
             >
               Hire Me
             </Link>
-            <a
-              href="/William%20S.%20Gray%20Professional%20CV.pdf"
-              download="William-S-Gray-CV.pdf"
+            <Link
+              to="/resume"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-clay clay-sm clay-hover text-sm font-semibold text-muted-foreground hover:text-primary transition-all"
             >
-              <Download size={16} /> Download CV
-            </a>
+              <FileText size={16} /> View résumé
+            </Link>
           </div>
 
           <div className="flex items-center gap-3 justify-center lg:justify-start">
@@ -117,6 +160,46 @@ const Index = () => (
       </motion.div>
     </div>
     </section>
+    <section className="px-4 py-16" aria-labelledby="audiences-heading">
+      <div className="container mx-auto max-w-6xl">
+        <h2 id="audiences-heading" className="text-2xl sm:text-3xl font-extrabold text-center mb-10">
+          Two ways to <span className="text-gradient">work with me</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {audiences.map((a) => (
+            <article key={a.title} className="clay p-7 sm:p-8 flex flex-col">
+              <span className="w-12 h-12 rounded-clay bg-primary/10 text-primary flex items-center justify-center mb-5">
+                <a.icon size={22} aria-hidden="true" />
+              </span>
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-1">{a.eyebrow}</p>
+              <h3 className="text-xl font-bold mb-4">{a.title}</h3>
+              <ul className="space-y-2.5 mb-7 flex-1 list-none p-0">
+                {a.points.map((pt) => (
+                  <li key={pt} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                    <CheckCircle2 size={17} className="text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to={a.primary.to}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-clay bg-primary text-primary-foreground text-sm font-semibold clay-hover"
+                >
+                  {a.primary.label} <ArrowRight size={15} />
+                </Link>
+                <Link
+                  to={a.secondary.to}
+                  className="inline-flex items-center px-5 py-2.5 rounded-clay clay-sm clay-hover text-sm font-semibold text-muted-foreground hover:text-primary"
+                >
+                  {a.secondary.label}
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
     <section className="px-4 py-16" aria-labelledby="featured-heading">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
@@ -142,6 +225,38 @@ const Index = () => (
     </section>
     <ImpactStats />
     <GitHubActivity />
+    <section className="px-4 py-16" aria-labelledby="cta-heading">
+      <div className="container mx-auto max-w-4xl clay-lg p-8 sm:p-12 text-center">
+        <h2 id="cta-heading" className="text-2xl sm:text-3xl font-extrabold mb-3">
+          Have a role or a project in mind?
+        </h2>
+        <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+          I usually reply within 24 hours. Tell me what you're building or hiring for — I'll tell you honestly how I can help.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-clay bg-primary text-primary-foreground font-semibold clay-hover text-sm"
+          >
+            <Mail size={16} /> Get in touch
+          </Link>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-clay clay-sm clay-hover text-sm font-semibold text-muted-foreground hover:text-primary"
+          >
+            <MessageCircle size={16} /> WhatsApp
+          </a>
+          <Link
+            to="/resume"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-clay clay-sm clay-hover text-sm font-semibold text-muted-foreground hover:text-primary"
+          >
+            <FileText size={16} /> Résumé
+          </Link>
+        </div>
+      </div>
+    </section>
   </>
 );
 

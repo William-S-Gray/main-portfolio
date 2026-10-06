@@ -12,7 +12,7 @@ import {
   Award,
   Newspaper,
   Mail,
-  Download,
+  FileText,
   Copy,
   Sun,
   Moon,
@@ -26,7 +26,6 @@ import { toast } from "sonner";
 import { projects } from "@/data/projects";
 
 const EMAIL = "graywilliamwiltino@gmail.com";
-const CV_PATH = "/William%20S.%20Gray%20Professional%20CV.pdf";
 
 type CommandItem = {
   id: string;
@@ -74,6 +73,7 @@ const CommandPalette = () => {
       { id: "certificates", label: "Certificates", group: "Pages", icon: <Award size={16} />, run: () => go("/certificates") },
       { id: "blog", label: "Blog", group: "Pages", icon: <Newspaper size={16} />, run: () => go("/blog") },
       { id: "contact", label: "Contact", group: "Pages", icon: <Mail size={16} />, run: () => go("/contact") },
+      { id: "resume", label: "Résumé", group: "Pages", icon: <FileText size={16} />, keywords: "resume cv curriculum vitae pdf experience", run: () => go("/resume") },
     ];
 
     const projectItems: CommandItem[] = projects.map((p) => ({
@@ -87,22 +87,6 @@ const CommandPalette = () => {
     }));
 
     const actions: CommandItem[] = [
-      {
-        id: "download-cv",
-        label: "Download CV",
-        group: "Actions",
-        icon: <Download size={16} />,
-        keywords: "resume pdf curriculum vitae",
-        run: () => {
-          const a = document.createElement("a");
-          a.href = CV_PATH;
-          a.download = "William-S-Gray-CV.pdf";
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          close();
-        },
-      },
       {
         id: "copy-email",
         label: "Copy email address",

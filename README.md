@@ -60,7 +60,7 @@ vercel.json         # SPA fallback for deep links
 - **Theme colors & claymorphism shadows:** `src/index.css` (CSS variables for light and `.dark`).
 - **SEO / structured data:** primary `Person`/`ProfilePage` JSON-LD lives in `index.html`; per-route titles and descriptions are set via `src/components/Seo.tsx`.
 - **Contact form:** update the EmailJS service/template IDs in `src/pages/Contact.tsx`.
-- **CV download:** place your résumé at `public/William-Gray-CV.pdf` to enable the hero "Download CV" button.
+- **Résumé:** `/resume` is rendered from `src/data/resume.ts` (also emitted as `/resume.json`) — edit that file; visitors use "Save as PDF" on the page.
 
 ## Deployment
 

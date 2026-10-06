@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Boxes, Layers, Award, Rocket } from "lucide-react";
+import { Boxes, Layers, Award, Users } from "lucide-react";
 import { projects } from "@/data/projects";
 import { certificates } from "@/data/certificates";
 
-const industries = new Set(projects.map((p) => p.category)).size;
+// Concept builds are excluded: these numbers should hold up to a recruiter checking them.
+const built = projects.filter((p) => p.status !== "concept");
+const industries = new Set(built.map((p) => p.category)).size;
 
 interface Stat {
   value: number;
@@ -15,10 +17,10 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: projects.length, suffix: "+", label: "Systems shipped", icon: <Boxes size={22} /> },
+  { value: built.length, label: "Systems built", sub: "with case studies", icon: <Boxes size={22} /> },
   { value: industries, label: "Industries", sub: "healthcare, edtech, retail & more", icon: <Layers size={22} /> },
   { value: certificates.length, suffix: "+", label: "Certifications", icon: <Award size={22} /> },
-  { value: 1, label: "Startup founded", sub: "WillNova Technologies", icon: <Rocket size={22} /> },
+  { value: 100, suffix: "+", label: "Developers led", sub: "as GDSC President", icon: <Users size={22} /> },
 ];
 
 /** Counts from `from`→`to` once, easing out. Respects reduced-motion. */
