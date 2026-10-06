@@ -17,6 +17,68 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: "designing-emergency-dispatch-for-low-connectivity",
+    title: "Designing Emergency Dispatch for Low-Connectivity Africa",
+    excerpt:
+      "What building ERDMS — an emergency response and dispatch platform for Liberia — taught me about offline-first design, honest interfaces, and testing the failures that matter.",
+    date: "2026-10-06",
+    readingTime: "6 min read",
+    tags: ["Software Engineering", "System Design", "Africa"],
+    content: [
+      {
+        type: "p",
+        text: "In an emergency, four people share one story: the citizen who asks for help, the dispatcher who coordinates the response, the field officer who arrives, and the administrator who keeps the system configured. ERDMS — the Emergency Response & Dispatch Management Platform I'm building for Liberia — is built around that idea: one incident record, shared by everyone involved, from the first call to the closed case.",
+      },
+      {
+        type: "p",
+        text: "The first operational use case is fire, but nothing in the code is specific to it. Emergency categories, response unit types and agencies are data, so an administrator can add a new one without a deployment.",
+      },
+      { type: "h2", text: "Meet people on the channel they have" },
+      {
+        type: "p",
+        text: "Many of the people who most need emergency services don't have a smartphone or reliable data. So ERDMS accepts requests over USSD, SMS, voice and the web — and every one of those channels calls the same incident service. The channel is a field on the record, not a fork in the code. That one decision keeps four entry points from turning into four slightly different systems.",
+      },
+      { type: "h2", text: "Offline is not \"received\"" },
+      {
+        type: "p",
+        text: "Field officers work where connectivity drops in and out, so actions queue on the device and sync when the network returns. The rule I hold the interface to is simple: a queued action is shown as queued until the backend has actually persisted it. In an emergency, telling someone a message was received when it wasn't is worse than telling them it's still waiting.",
+      },
+      {
+        type: "quote",
+        text: "Never claim what the backend cannot support. The interface doesn't say a responder is on the way until a responder has actually reported en route.",
+      },
+      { type: "h2", text: "Trust comes from the data model" },
+      {
+        type: "ul",
+        items: [
+          "The backend is the authority — frontend permission checks only hide buttons; every endpoint enforces its own access rules.",
+          "Emergency history is append-only — corrections add events and never rewrite them.",
+          "The requester and the person needing help are separate records, even when they share a phone number.",
+          "The dispatcher decides — nearest-unit search with PostGIS is decision support, and nothing dispatches itself.",
+        ],
+      },
+      { type: "h2", text: "Realtime that degrades gracefully" },
+      {
+        type: "p",
+        text: "Dispatchers see incidents update live over WebSockets, with events fanned out through Redis so every server can reach every client. But the socket is an optimisation, never the source of truth: on every connect and reconnect, the client refetches authoritative state from the API. If Redis goes down, realtime degrades — it never blocks a write.",
+      },
+      { type: "h2", text: "Test the failures, not just the features" },
+      {
+        type: "p",
+        text: "Unit tests that call the application in-process can't see everything. A smoke suite signs in over real HTTP as a citizen, a dispatcher, a crew and an administrator, holds a live WebSocket open, and works one emergency from the call to the closed record. It exists because, until a real connection was tried, the WebSocket had never once accepted a client.",
+      },
+      {
+        type: "p",
+        text: "Load testing at 20,000 incidents found a dispatch-queue filter taking 4.6 seconds — a cached query plan was discarding 29.4 million rows in a join to return a page of 50. Restructuring the query brought it to 88 milliseconds. Concurrency tests found four races. Failure drills take Redis, then PostgreSQL, away from a running server to prove the system degrades the way the design says it should.",
+      },
+      { type: "h2", text: "Why it matters" },
+      {
+        type: "p",
+        text: "Emergency software in low-connectivity environments can't borrow its assumptions from places with fast networks and modern devices. It has to be honest about what it knows, resilient when infrastructure fails, and simple enough to use under pressure. That's the bar I'm building ERDMS to — and the kind of engineering I want to keep doing for African public services.",
+      },
+    ],
+  },
+  {
     slug: "building-software-for-the-real-world",
     title: "Building Software for the Real World: Lessons from PathoGuide",
     excerpt:

@@ -31,3 +31,16 @@ export const categoryColors: Record<string, string> = {
   security: "from-orange-500 to-red-600",
   emergency: "from-red-500 to-rose-600",
 };
+
+export const statusBadge = {
+  "in-development": {
+    label: "In development",
+    detail: "In development — not yet deployed",
+    className: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+  },
+  concept: {
+    label: "Concept",
+    detail: "Concept build — not a production deployment",
+    className: "bg-muted text-muted-foreground",
+  },
+} as const;

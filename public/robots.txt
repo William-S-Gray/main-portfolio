@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://william-gray.netlify.app/sitemap.xml
+Sitemap: https://www.williamgray.dev/sitemap.xml

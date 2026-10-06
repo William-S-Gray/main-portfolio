@@ -1,4 +1,5 @@
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -18,6 +19,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
     <Sonner />
+    <Analytics />
     <BrowserRouter>
       <Layout>
         <Suspense fallback={<div className="min-h-screen" />}>

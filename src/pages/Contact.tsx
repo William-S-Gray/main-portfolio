@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, MapPin, Mail, Github, Linkedin } from "lucide-react";
 import { z } from "zod";
@@ -34,6 +34,7 @@ const Contact = () => {
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const mountedAt = useRef(Date.now());
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -42,8 +43,16 @@ const Contact = () => {
     setErrors({ ...errors, [e.target.name]: undefined });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Spam trap: bots fill the hidden "website" field or submit instantly.
+    // Show success so they don't retry, but send nothing.
+    const honeypot = (e.currentTarget.elements.namedItem("website") as HTMLInputElement | null)?.value;
+    if (honeypot || Date.now() - mountedAt.current < 3000) {
+      setSubmitted(true);
+      return;
+    }
 
     const result = contactSchema.safeParse(form);
 
@@ -107,7 +116,7 @@ const Contact = () => {
     <section className="px-4 py-16">
       <Seo
         title="Contact William S. Gray | Software Engineer"
-        description="Get in touch with William S. Gray for software engineering projects, full-stack development, AI solutions, or collaboration. Available worldwide."
+        description="Get in touch with William S. Gray for software engineering projects, full-stack development, AI solutions, or collaboration. Open to full-time, contract, and freelance work, remotely."
         path="/contact"
       />
       <div className="container mx-auto max-w-4xl">
@@ -146,9 +155,12 @@ const Contact = () => {
             <div className="clay p-5 flex items-start gap-3">
               <MapPin size={18} aria-hidden="true" className="text-primary mt-0.5" />
               <div>
-                <p className="font-semibold text-sm">Location</p>
+                <p className="font-semibold text-sm">Availability</p>
                 <p className="text-sm text-muted-foreground">
-                  Available Worldwide
+                  Full-time, contract &amp; freelance
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Remote · Zimbabwe, CAT (UTC+2)
                 </p>
               </div>
             </div>
@@ -196,6 +208,10 @@ const Contact = () => {
                 className="clay p-7 space-y-5"
                 noValidate
               >
+                <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                  <label htmlFor="contact-website">Website</label>
+                  <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
                 {fields.map((f) => {
                   const Tag = f.name === "message" ? "textarea" : "input";
                   return (

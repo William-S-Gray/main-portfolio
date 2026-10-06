@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import type { Project } from "@/data/projects";
-import { categoryColors, categoryIcons } from "@/lib/categories";
+import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const iconColorClass =
@@ -86,9 +86,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
               <ExternalLink size={15} /> Live
             </a>
           )}
-          {project.inDevelopment && (
-            <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 font-semibold">
-              In development
+          {project.status && (
+            <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${statusBadge[project.status].className}`}>
+              {statusBadge[project.status].label}
             </span>
           )}
         </div>
