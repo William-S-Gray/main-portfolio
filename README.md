@@ -66,6 +66,12 @@ vercel.json         # SPA fallback for deep links
 
 Deployed on Vercel at https://www.williamgray.dev. `vercel.json` rewrites every path to `index.html` so deep links (`/about`, `/projects/…`) resolve on direct hits and crawls. The build also emits `sitemap.xml`, `rss.xml`, and `resume.json` from `src/data`.
 
+**Weekly analytics email.** `api/analytics-report.ts` runs every Monday 07:00 UTC (Vercel Cron, `vercel.json`), reads last week's Vercel Web Analytics and emails a summary via EmailJS. It needs these environment variables in the Vercel project:
+
+- `CRON_SECRET` — any long random string (Vercel sends it to authorise the cron call)
+- `VERCEL_TOKEN` — a Vercel access token that can read this project's analytics
+- `EMAILJS_PRIVATE_KEY` — EmailJS private key, with "Allow EmailJS API for non-browser applications" enabled
+
 ## License
 
 Personal project — all rights reserved © William S. Gray.
