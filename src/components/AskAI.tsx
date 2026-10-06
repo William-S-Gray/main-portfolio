@@ -67,7 +67,7 @@ const AskAI = () => {
       <motion.button
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close AI assistant" : "Ask my AI"}
-        className="fixed bottom-5 right-5 z-[150] inline-flex items-center gap-2 rounded-clay bg-primary text-primary-foreground px-4 py-3 font-semibold text-sm shadow-lg clay-hover"
+        className="print:hidden fixed bottom-5 right-5 z-[150] inline-flex items-center gap-2 rounded-clay bg-primary text-primary-foreground px-4 py-3 font-semibold text-sm shadow-lg clay-hover"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.6, type: "spring", bounce: 0.4 }}

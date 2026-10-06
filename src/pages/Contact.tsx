@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Send, MapPin, Mail, Github, Linkedin } from "lucide-react";
+import { Send, MapPin, Mail, Github, Linkedin, MessageCircle } from "lucide-react";
+import { WHATSAPP_URL } from "@/data/resume";
 import { z } from "zod";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -164,6 +165,19 @@ const Contact = () => {
                 </p>
               </div>
             </div>
+
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="clay p-5 flex items-start gap-3 clay-hover"
+            >
+              <MessageCircle size={18} aria-hidden="true" className="text-primary mt-0.5" />
+              <div>
+                <p className="font-semibold text-sm">WhatsApp</p>
+                <p className="text-sm text-muted-foreground">Message me directly</p>
+              </div>
+            </a>
 
             <div className="clay p-5 flex items-center gap-4">
               <a

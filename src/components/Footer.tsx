@@ -9,7 +9,7 @@ const socials = [
 ];
 
 const Footer = () => (
-  <footer className="py-12 px-4">
+  <footer className="py-12 px-4 print:hidden">
     <div className="container mx-auto max-w-6xl">
       <div className="clay p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <Link to="/" className="font-heading text-lg font-bold text-gradient">

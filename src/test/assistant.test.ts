@@ -11,6 +11,10 @@ describe("offline assistant routing", () => {
     ["What time zone is he in?", "About"],
     ["How do I contact him?", "Contact page"],
     ["What certifications does he have?", "View certificates"],
+    ["What work experience does he have?", "Open résumé"],
+    ["Did he intern anywhere?", "Open résumé"],
+    ["Can I see his CV?", "Open résumé"],
+    ["Was he a GDSC lead?", "More on leadership"],
   ])("%s → %s", (q, cta) => {
     expect(answerQuestion(q).cta?.label).toBe(cta);
   });

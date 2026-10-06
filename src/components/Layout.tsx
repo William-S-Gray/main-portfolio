@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: ReactNode }) => (
       Skip to content
     </a>
     <Navbar />
-    <main id="main" className="flex-1 pt-24">{children}</main>
+    <main id="main" className="flex-1 pt-24 print:pt-0">{children}</main>
     <Footer />
     <CommandPalette />
     <AskAI />

@@ -14,8 +14,11 @@ import {
   Rocket,
   ArrowUpRight,
   ArrowRight,
+  BookOpen,
+  Briefcase,
 } from "lucide-react";
 import Seo from "@/components/Seo";
+import { resume } from "@/data/resume";
 
 const willNovaServices = [
   "Web Development", "Mobile Apps", "Custom Management Systems", "Backend APIs",
@@ -40,20 +43,15 @@ const systems = [
   { icon: Building2, name: "Clinic & Hospital Systems", desc: "Digital platforms improving workflows across administration, clinical services, labs, pharmacies, and billing." },
 ];
 
-const leadership = [
-  {
-    icon: Users,
-    role: "Google Developer Student Clubs Lead",
-    org: "Africa University · 2023/2024",
-    desc: "Created opportunities for students to learn, collaborate, explore technology, and participate in developer communities.",
-  },
-  {
-    icon: Landmark,
-    role: "Deputy Speaker, Student Union Parliament",
-    org: "Africa University · 2024",
-    desc: "Contributed to student representation, governance, dialogue, and institutional engagement.",
-  },
-];
+const leadershipIcons = [Users, Landmark, BookOpen];
+const leadership = resume.volunteer.map((v, i) => ({
+  icon: leadershipIcons[i] ?? Users,
+  role: v.position,
+  org: `${v.organization} · ${v.startDate === v.endDate ? v.startDate : `${v.startDate}–${v.endDate}`}`,
+  desc: `${v.highlights.join(". ")}.`,
+}));
+
+const netone = resume.work.find((w) => w.name.startsWith("NetOne"))!;
 
 const approachQuestions = [
   "Who is experiencing the problem?",
@@ -124,12 +122,35 @@ const About = () => (
         </span>
         <div>
           <h2 className="text-xl font-bold mb-1">BSc (Honours) in Computer Science</h2>
-          <p className="text-sm text-primary font-medium mb-2">Africa University · Mutare, Zimbabwe</p>
+          <p className="text-sm text-primary font-medium mb-2">Africa University · Mutare, Zimbabwe · Graduated June 2026</p>
           <p className="text-sm text-muted-foreground">
             My experience extended far beyond the classroom — combining software development, technical
             leadership, innovation, and community involvement while building systems across healthcare,
             education, agriculture, digital services, and operational management.
           </p>
+        </div>
+      </motion.article>
+
+      {/* Industry experience */}
+      <motion.article
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        custom={0}
+        className="clay p-6 sm:p-8 flex items-start gap-5 max-w-3xl mx-auto"
+      >
+        <span className="w-12 h-12 rounded-clay bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+          <Briefcase size={24} />
+        </span>
+        <div>
+          <h2 className="text-xl font-bold mb-1">{netone.position}</h2>
+          <p className="text-sm text-primary font-medium mb-2">NetOne · Zimbabwe · Oct 2025 – Jun 2026</p>
+          <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
+            {netone.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
         </div>
       </motion.article>
 
@@ -206,7 +227,7 @@ const About = () => (
             communicating clearly, bringing teams together, and turning ideas into action.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {leadership.map((l, i) => (
             <motion.article
               key={l.role}
