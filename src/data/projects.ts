@@ -383,19 +383,25 @@ const allProjects: Project[] = [
   },
   {
     id: "agriconnect",
-    status: "concept",
     title: "AgriConnect Marketplace",
-    description: "Empowering local farmers by eliminating middle-men. AgriConnect allows farmers to list harvests and buyers to purchase directly, ensuring fair prices and fresh produce.",
-    techStack: ["React", "Express", "Stripe", "PostGIS"],
+    description: "Zimbabwe's farm-to-market marketplace: buyers purchase fresh produce direct from verified farmers, with payment held in escrow until delivery is confirmed — better prices, no middlemen.",
+    techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "shadcn/ui"],
     category: "marketplace",
+    liveUrl: "https://agriconnect-marketplace.vercel.app/",
+    image: "/projects/agriconnect.webp",
     problem:
       "Middlemen erode farmer margins and inflate buyer prices, while fresh produce struggles to reach the right markets in time.",
     role: "Full-stack design & development",
     features: [
-      "Direct farmer-to-buyer marketplace",
-      "Fair-price harvest listings",
-      "Stripe-powered payments",
-      "PostGIS location-based matching",
+      "Direct farmer-to-buyer marketplace with verified farms",
+      "Escrow: payment released only after the buyer confirms delivery",
+      "Farmer, buyer and admin dashboards",
+      "Market prices view",
+    ],
+    results: [
+      "MFA (TOTP + recovery codes), CSRF origin checks and per-request CSP nonces",
+      "Account lockout after 5 failed logins; rate limits in Redis with a Postgres fallback",
+      "Vitest + Playwright suites gated in CI",
     ],
   },
   {
