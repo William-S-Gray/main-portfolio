@@ -46,6 +46,7 @@ export const resume = {
       highlights: [
         "Take products from requirements to deployed system: architecture, build, delivery and post-launch support",
         "Built systems across healthcare, education, emergency response, security and retail",
+        "Built ClassRoot, a multi-school management platform for Liberian high schools: a database schema per school, offline-first entry for teachers, ~1,800 backend tests",
       ],
     },
     {
@@ -108,12 +109,12 @@ export const resume = {
   skills: [
     { name: "Languages", keywords: ["TypeScript", "JavaScript", "Python", "Java"] },
     { name: "Frontend", keywords: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3"] },
-    { name: "Backend", keywords: ["Node.js", "Express", "FastAPI", "Flask", "Django", "Spring Boot"] },
-    { name: "Data", keywords: ["PostgreSQL", "PostGIS", "MySQL", "MongoDB", "Redis", "Prisma", "SQLAlchemy"] },
-    { name: "DevOps & Cloud", keywords: ["Docker", "Kubernetes", "GitHub Actions CI/CD", "Linux", "Vercel", "Render"] },
+    { name: "Backend", keywords: ["Node.js", "Express", "FastAPI", "Flask", "Django", "Celery", "Spring Boot"] },
+    { name: "Data", keywords: ["PostgreSQL", "Neon", "PostGIS", "MySQL", "MongoDB", "Redis", "Prisma", "SQLAlchemy"] },
+    { name: "DevOps & Cloud", keywords: ["Docker", "Kubernetes", "GitHub Actions CI/CD", "Linux", "Vercel", "Render", "Cloudflare Workers & R2"] },
     { name: "AI & Automation", keywords: ["AI-powered systems", "OpenCV", "ONNX", "n8n", "Prompt engineering"] },
     { name: "Testing", keywords: ["pytest", "Jest", "Vitest", "Playwright", "Cypress", "Postman"] },
-    { name: "Practices", keywords: ["System design", "REST APIs", "Microservices", "Auth & RBAC", "Agile / SDLC"] },
+    { name: "Practices", keywords: ["System design", "REST APIs", "Microservices", "Auth & RBAC", "Multi-tenant SaaS", "Offline-first PWAs", "Agile / SDLC"] },
   ],
   languages: [{ language: "English", fluency: "Fluent" }],
   references: [{ name: "Available on request", reference: "Academic and industry references available on request." }],

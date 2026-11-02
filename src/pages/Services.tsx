@@ -58,7 +58,7 @@ const services = [
     title: "DevOps & deployment",
     description:
       "Docker, CI pipelines that test every change, cloud deployment, and backups — so your system keeps working after launch day.",
-    proof: { label: "ERDMS engineering", to: "/projects/erdms" },
+    proof: { label: "ClassRoot engineering", to: "/projects/classroot" },
   },
 ];
 

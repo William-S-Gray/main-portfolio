@@ -28,7 +28,7 @@ const techset = Array.from(new Set(built.flatMap((p) => p.techStack)));
 /** Extra names people use for a project, beyond its title and id. */
 const PROJECT_ALIASES: Record<string, string[]> = {
   "zoe-campus": ["zoe"],
-  "sacred-heart-sms": ["sacred heart"],
+  classroot: ["class root", "sacred heart"],
   "job-pilot-ai": ["job pilot", "jobpilot"],
   "tune-wise": ["tunewise", "tune wise"],
   "meal-pass": ["mealpass"],
