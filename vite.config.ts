@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
 import { posts } from "./src/data/posts";
-import { resume } from "./src/data/resume";
+import { resume, availability } from "./src/data/resume";
 import { projects } from "./src/data/projects";
 import { pageMeta } from "./src/data/pages";
 
@@ -117,12 +117,40 @@ function withMeta(html: string, { path: loc, title, description, image }: Route)
   return html;
 }
 
-/** Emits /rss.xml, /sitemap.xml, /resume.json, per-route HTML and 404.html into the build output. */
+/** /llms.txt (https://llmstxt.org): a plain-text map of the site for AI assistants and agents. */
+function buildLlms(): string {
+  const link = (title: string, loc: string, note: string) => `- [${title}](${SITE}${loc}): ${note}`;
+  const built = projects.filter((p) => p.status !== "concept");
+  return `# William S. Gray
+
+> ${resume.basics.summary}
+
+Contact: ${resume.basics.email} · GitHub: https://github.com/William-S-Gray · ${availability.engagement}, ${availability.location}.
+
+## Pages
+
+${link("About", "/about", "background, education and leadership")}
+${link("Résumé", "/resume", "experience and skills; machine-readable at /resume.json")}
+${link("Services", "/services", "what William builds for clients")}
+${link("Contact", "/contact", "hiring and project enquiries")}
+
+## Projects
+
+${built.map((p) => link(p.title, `/projects/${p.id}`, `${p.description} Stack: ${p.techStack.join(", ")}.`)).join("\n")}
+
+## Writing
+
+${posts.map((p) => link(p.title, `/blog/${p.slug}`, p.excerpt)).join("\n")}
+`;
+}
+
+/** Emits /rss.xml, /sitemap.xml, /resume.json, /llms.txt, per-route HTML and 404.html into the build output. */
 function staticFeeds(): Plugin {
   const write = (dir: string, bundle: OutputBundle) => {
     fs.writeFileSync(path.join(dir, "rss.xml"), buildRss());
     fs.writeFileSync(path.join(dir, "sitemap.xml"), buildSitemap());
     fs.writeFileSync(path.join(dir, "resume.json"), JSON.stringify(resume, null, 2));
+    fs.writeFileSync(path.join(dir, "llms.txt"), buildLlms());
 
     // One HTML file per real page (dist/about/index.html, …) instead of a catch-all
     // rewrite: Vercel serves these directly and returns a real 404 (404.html,
@@ -152,7 +180,8 @@ function staticFeeds(): Plugin {
   };
   return {
     name: "static-feeds",
-    apply: "build",
+    // Not during the prerender's SSR build (scripts/prerender.mjs), which has no index.html.
+    apply: (_config, { command, isSsrBuild }) => command === "build" && !isSsrBuild,
     writeBundle(options, bundle) {
       const dir = options.dir ?? path.resolve(__dirname, "dist");
       write(dir, bundle);
@@ -161,7 +190,7 @@ function staticFeeds(): Plugin {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig(() => ({
+export default defineConfig(({ isSsrBuild }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -181,7 +210,8 @@ export default defineConfig(() => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
+        // Client-only: the SSR build keeps dependencies external.
+        manualChunks: isSsrBuild ? undefined : {
           "react-vendor": ["react", "react-dom", "react-router-dom"],
           motion: ["framer-motion"],
         },
