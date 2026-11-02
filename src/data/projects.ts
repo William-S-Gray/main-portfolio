@@ -8,6 +8,9 @@ export interface Project {
   liveUrl?: string;
   /** Optional screenshot in /public/projects. When omitted, a branded gradient placeholder is shown. */
   image?: string;
+  /** Walkthrough video (MP4 in /public/projects/walkthroughs, with a same-name .jpg poster). Replaces the
+   *  screenshot on the case-study page. Recorded on local sample data, never production. */
+  video?: string;
   /** Badge for work that isn't a shipped product: not deployed yet, or a concept build. */
   status?: "in-development" | "concept";
   /** Shown in the homepage "Featured work" section. */
@@ -112,6 +115,7 @@ const allProjects: Project[] = [
     title: "Aegis – Vehicle Access Management",
     description: "AI-powered vehicle access control: cameras read number plates, Aegis checks them against the register and watchlist, and the guard gets a clear decision — with every decision logged and uncertain reads sent for human review. Works with IP cameras and mobile phones.",
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "OpenCV", "ONNX"],
+    video: "/projects/walkthroughs/aegis.mp4",
     category: "security",
     liveUrl: "https://aegis-eight-snowy.vercel.app/",
     githubUrl: "https://github.com/William-S-Gray/Aegis",
@@ -146,6 +150,7 @@ const allProjects: Project[] = [
     title: "4Life Zoe Digital Campus",
     description: "The digital platform for 4Life Zoe, a vocational and technical training institution in Liberia. A public website where prospective students apply, plus a role-based campus platform covering admissions, enrollment, fee plans, payments, attendance, and a live executive dashboard.",
     techStack: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Docker"],
+    video: "/projects/walkthroughs/zoe.mp4",
     category: "management",
     liveUrl: "https://zoe-campus.vercel.app/",
     image: "/projects/zoe-campus.webp",
@@ -222,6 +227,7 @@ const allProjects: Project[] = [
     title: "ClaimGuard 360°",
     description: "Enterprise fraud prevention for medical-aid claims in Zimbabwe: every claim is scored in real time by an explainable ML engine, members confirm or dispute suspicious activity over WhatsApp/USSD, and investigators work cases end to end.",
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "Celery", "XGBoost"],
+    video: "/projects/walkthroughs/claimguard.mp4",
     category: "healthcare",
     githubUrl: "https://github.com/William-S-Gray/ClaimGuard",
     liveUrl: "https://claim-guard-silk.vercel.app",
@@ -430,6 +436,7 @@ const allProjects: Project[] = [
     title: "AgriConnect Marketplace",
     description: "Zimbabwe's farm-to-market marketplace: buyers purchase fresh produce direct from verified farmers, with payment held in escrow until delivery is confirmed — better prices, no middlemen.",
     techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "shadcn/ui"],
+    video: "/projects/walkthroughs/agriconnect.mp4",
     category: "marketplace",
     liveUrl: "https://agriconnect-marketplace.vercel.app/",
     githubUrl: "https://github.com/William-S-Gray/agriconnect-marketplace",
