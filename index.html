@@ -77,6 +77,8 @@
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
       />
+      <!-- Prerendered entrance animations start hidden (Framer Motion's initial styles); show them without JS. -->
+      <style>[style*="opacity:0"]{opacity:1!important;transform:none!important}</style>
     </noscript>
     <!-- Homepage hero photo is the LCP element; start it before JS runs. Stripped from other routes at build. -->
     <link rel="preload" as="image" href="/Will.webp" fetchpriority="high" data-home-only />

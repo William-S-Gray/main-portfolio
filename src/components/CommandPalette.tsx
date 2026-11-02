@@ -46,6 +46,9 @@ const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  // The portal targets document.body, which doesn't exist in the build-time prerender.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -208,6 +211,8 @@ const CommandPalette = () => {
   }, [active]);
 
   if (typeof document === "undefined") return null;
+
+  if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
