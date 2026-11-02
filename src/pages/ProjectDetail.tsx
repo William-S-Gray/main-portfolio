@@ -22,10 +22,11 @@ const ProjectDetail = () => {
 
   if (!project) return <NotFound />;
 
-  // Previous / next in the order the Projects page shows them, wrapping around.
-  const index = projects.indexOf(project);
-  const prev = projects[(index - 1 + projects.length) % projects.length];
-  const next = projects[(index + 1) % projects.length];
+  // Previous / next within the same list on the Projects page (selected or "More projects"), wrapping around.
+  const group = projects.filter((p) => !p.archived === !project.archived);
+  const index = group.indexOf(project);
+  const prev = group[(index - 1 + group.length) % group.length];
+  const next = group[(index + 1) % group.length];
 
   const gradient = categoryColors[project.category] ?? "from-primary to-primary/60";
   const icon = categoryIcons[project.category];

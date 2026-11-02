@@ -1,16 +1,6 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Stethoscope,
-  LayoutDashboard,
-  ShoppingBag,
-  Music,
-  Bot,
-  ShoppingCart,
-  ShieldCheck,
-  Siren,
-  Grid2X2,
-} from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import { projects } from "@/data/projects";
 import ProjectCard from "@/components/ProjectCard";
 import { categoryLabel } from "@/lib/categories";
@@ -42,38 +32,10 @@ const projectsJsonLd = {
   })),
 };
 
-const categories = [
-  "all",
-  "healthcare",
-  "management",
-  "marketplace",
-  "entertainment",
-  "ai",
-  "retail",
-  "security",
-  "emergency",
-] as const;
-
-type Category = (typeof categories)[number];
-
-const categoryIcons: Record<Category, React.ReactNode> = {
-  all: <Grid2X2 size={14} />,
-  healthcare: <Stethoscope size={14} />,
-  management: <LayoutDashboard size={14} />,
-  marketplace: <ShoppingBag size={14} />,
-  entertainment: <Music size={14} />,
-  ai: <Bot size={14} />,
-  retail: <ShoppingCart size={14} />,
-  security: <ShieldCheck size={14} />,
-  emergency: <Siren size={14} />,
-};
+const selected = projects.filter((p) => !p.archived);
+const more = projects.filter((p) => p.archived);
 
 const Projects = () => {
-  const [filter, setFilter] = useState<string>("all");
-
-  const filtered =
-    filter === "all" ? projects : projects.filter((p) => p.category === filter);
-
   return (
     <section className="px-4 py-16">
       <Seo {...pageMeta["/projects"]} path="/projects" />
@@ -97,32 +59,40 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        {/* Filters */}
-        <div role="group" aria-label="Filter projects by category" className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((c) => (
-            <button
-              key={c}
-              onClick={() => setFilter(c)}
-              aria-pressed={filter === c}
-              className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-clay text-sm font-medium transition-all ${
-                filter === c
-                  ? "bg-primary text-primary-foreground"
-                  : "clay-sm text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {categoryIcons[c]}
-              {categoryLabel(c)}
-            </button>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <h2 className="sr-only">Project list</h2>
+        <h2 className="sr-only">Selected projects</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => (
+          {selected.map((p) => (
             <ProjectCard key={p.id} project={p} />
           ))}
         </div>
+
+        <h2 className="text-2xl font-extrabold mt-20 mb-2">More projects</h2>
+        <p className="text-muted-foreground mb-6">Earlier builds, smaller tools and concepts, without a full case study yet.</p>
+        <ul className="flex flex-col gap-3 list-none p-0">
+          {more.map((p) => (
+            <li key={p.id} className="clay-sm px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-1.5 text-sm">
+              <Link to={`/projects/${p.id}`} className="font-semibold hover:text-primary sm:w-52 flex-shrink-0">
+                {p.title}
+              </Link>
+              <span className="text-muted-foreground flex-1">
+                {categoryLabel(p.category)} · {p.techStack.slice(0, 4).join(", ")}
+                {p.status && <span className="ml-2 text-xs font-medium text-primary">{p.status === "concept" ? "Concept" : "In development"}</span>}
+              </span>
+              <span className="flex gap-3">
+                {p.liveUrl && (
+                  <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} live demo`} className="text-muted-foreground hover:text-primary">
+                    <ExternalLink size={16} />
+                  </a>
+                )}
+                {p.githubUrl && (
+                  <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} source code`} className="text-muted-foreground hover:text-primary">
+                    <Github size={16} />
+                  </a>
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

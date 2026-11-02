@@ -12,6 +12,8 @@ export interface Project {
   status?: "in-development" | "concept";
   /** Shown in the homepage "Featured work" section. */
   featured?: boolean;
+  /** Listed under "More projects" instead of the main grid: no full case study yet. Its page stays live. */
+  archived?: boolean;
   /** Case-study detail — powers /projects/:id. */
   problem?: string;
   role?: string;
@@ -112,6 +114,7 @@ const allProjects: Project[] = [
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "OpenCV", "ONNX"],
     category: "security",
     liveUrl: "https://aegis-eight-snowy.vercel.app/",
+    githubUrl: "https://github.com/William-S-Gray/Aegis",
     image: "/projects/aegis.webp",
     problem:
       "Manual vehicle access control is slow, error-prone, and hard to audit across multiple entry points.",
@@ -240,6 +243,7 @@ const allProjects: Project[] = [
   },
   {
     id: "hostel-harmony",
+    archived: true,
     title: "Hostel Harmony",
     description: "White-label university hostel management: accommodation applications, bed allocation across hostels, blocks, rooms and beds, check-in and check-out, complaints and reporting — branded per institution through configuration.",
     techStack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Redis", "Vitest"],
@@ -258,11 +262,13 @@ const allProjects: Project[] = [
   },
   {
     id: "pharmtrack",
+    archived: true,
     title: "PharmConnect Zim",
     description: "Real-time medicine availability for Zimbabwe: patients search for a medicine and instantly see which nearby pharmacies have it in stock, with prices and one-tap calling. Pharmacies manage inventory and get low-stock SMS alerts.",
     techStack: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "PostGIS"],
     category: "healthcare",
     liveUrl: "https://pharmconnect-zim.vercel.app/",
+    githubUrl: "https://github.com/William-S-Gray/pharmconnect-zim",
     image: "/projects/pharmconnect-zim.webp",
     problem:
       "Patients in Zimbabwe often visit pharmacy after pharmacy before finding the medicine they need.",
@@ -278,6 +284,7 @@ const allProjects: Project[] = [
   },
   {
     id: "smartmart-pos",
+    archived: true,
     title: "SmartMart POS",
     description: "Supermarket management for a single store: point of sale with barcode scanning, inventory, till cash-up, stock adjustments and reporting, with role-based access for admins, managers, cashiers and stock clerks.",
     techStack: ["React", "TypeScript", "Vite", "shadcn/ui", "Tailwind CSS"],
@@ -296,6 +303,7 @@ const allProjects: Project[] = [
   },
   {
     id: "queueflow",
+    archived: true,
     title: "QueueFlow",
     description: "Multi-tenant smart queue management for hospitals, clinics, pharmacies, banks and government offices: customers join queues remotely and track their ticket live while staff run the queue from a real-time control room.",
     techStack: ["Next.js", "NestJS", "TypeScript", "PostgreSQL", "Prisma", "Socket.IO"],
@@ -312,6 +320,7 @@ const allProjects: Project[] = [
   },
   {
     id: "safechoice-plus",
+    archived: true,
     title: "SafeChoice+",
     description: "Private, real-time sexual-health decision support for university students in Zimbabwe — an anonymous mobile app that guides a student from uncertainty to informed action in under two minutes, in English, ChiShona or isiNdebele.",
     techStack: ["React Native", "Expo", "TypeScript", "Flask", "MongoDB"],
@@ -330,6 +339,7 @@ const allProjects: Project[] = [
   },
   {
     id: "campusiq",
+    archived: true,
     title: "CampusIQ",
     description: "A modern, all-in-one school management platform that streamlines administration, empowers teachers, and engages students with real-time academic tracking and analytics.",
     techStack: ["React", "Spring Boot", "PostgreSQL", "JWT"],
@@ -348,6 +358,7 @@ const allProjects: Project[] = [
   },
   {
     id: "meal-pass",
+    archived: true,
     title: "Meal Pass",
     description: "A smart employee feeding system for Africa Accommodation Providers (AAP). Scannable QR and barcode meal IDs verify each employee's eligibility at the checkpoint, block double feeding in real time, and give admins live reports.",
     techStack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
@@ -366,6 +377,7 @@ const allProjects: Project[] = [
   },
   {
     id: "davison-motors",
+    archived: true,
     title: "Davison Motors",
     description: "A premium automotive management platform offering an elite experience for luxury car dealerships. Manage inventory and showcase high-end vehicles with unparalleled elegance.",
     techStack: ["React", "Three.js", "Express", "MongoDB"],
@@ -382,6 +394,7 @@ const allProjects: Project[] = [
   },
   {
     id: "job-pilot-ai",
+    archived: true,
     title: "Job Pilot AI",
     description: "An AI job-application copilot that matches roles against a bank of verified evidence about the candidate, drafts tailored CVs and cover letters, and never submits anything without human approval.",
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts"],
@@ -399,6 +412,7 @@ const allProjects: Project[] = [
   },
   {
     id: "tune-wise",
+    archived: true,
     title: "Tune-Wise",
     description: "An interactive music education platform designed to teach students music theory, ear training, and instrument practice. Features piano keyboards, progress tracking, gamified lessons, and real-time audio feedback.",
     techStack: ["React", "TypeScript", "Web Audio API", "Vite"],
@@ -418,6 +432,7 @@ const allProjects: Project[] = [
     techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "shadcn/ui"],
     category: "marketplace",
     liveUrl: "https://agriconnect-marketplace.vercel.app/",
+    githubUrl: "https://github.com/William-S-Gray/agriconnect-marketplace",
     image: "/projects/agriconnect.webp",
     problem:
       "Middlemen erode farmer margins and inflate buyer prices, while fresh produce struggles to reach the right markets in time.",
@@ -436,6 +451,7 @@ const allProjects: Project[] = [
   },
   {
     id: "meditriage-ai",
+    archived: true,
     status: "concept",
     title: "MediTriage AI",
     description: "Advanced multi-channel AI triage platform. Access expert medical guidance via smartphone, WhatsApp, or USSD code, ensuring timely care for everyone, everywhere.",
@@ -453,6 +469,7 @@ const allProjects: Project[] = [
   },
   {
     id: "mediflow",
+    archived: true,
     status: "concept",
     title: "MediFlow",
     description: "Optimizing hospital operations with MediFlow. A high-tech management system for real-time patient tracking, staff coordination, and medical inventory control.",
@@ -468,6 +485,7 @@ const allProjects: Project[] = [
   },
   {
     id: "echostream",
+    archived: true,
     status: "concept",
     title: "EchoStream",
     description: "Experience music like never before with EchoStream. A futuristic music management system featuring dynamic visualizers, glassmorphism UI, and personalized audio discovery.",

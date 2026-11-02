@@ -179,7 +179,7 @@ const Resume = () => {
             ))}
           </ul>
           <Link to="/projects" className="print:hidden inline-flex items-center gap-1 mt-4 text-sm font-semibold text-primary hover:underline">
-            Case studies for all {projects.length} projects <ArrowRight size={14} />
+            All {projects.length} projects <ArrowRight size={14} />
           </Link>
         </Section>
 
