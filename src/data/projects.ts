@@ -8,6 +8,9 @@ export interface Project {
   liveUrl?: string;
   /** Optional screenshot in /public/projects. When omitted, a branded gradient placeholder is shown. */
   image?: string;
+  /** Walkthrough video (MP4 in /public/projects/walkthroughs, with a same-name .jpg poster). Replaces the
+   *  screenshot on the case-study page. Recorded on local sample data, never production. */
+  video?: string;
   /** Badge for work that isn't a shipped product: not deployed yet, or a concept build. */
   status?: "in-development" | "concept";
   /** Shown in the homepage "Featured work" section. */
@@ -112,6 +115,7 @@ const allProjects: Project[] = [
     title: "Aegis – Vehicle Access Management",
     description: "AI-powered vehicle access control: cameras read number plates, Aegis checks them against the register and watchlist, and the guard gets a clear decision — with every decision logged and uncertain reads sent for human review. Works with IP cameras and mobile phones.",
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "OpenCV", "ONNX"],
+    video: "/projects/walkthroughs/aegis.mp4",
     category: "security",
     liveUrl: "https://aegis-eight-snowy.vercel.app/",
     githubUrl: "https://github.com/William-S-Gray/Aegis",
@@ -222,6 +226,7 @@ const allProjects: Project[] = [
     title: "ClaimGuard 360°",
     description: "Enterprise fraud prevention for medical-aid claims in Zimbabwe: every claim is scored in real time by an explainable ML engine, members confirm or dispute suspicious activity over WhatsApp/USSD, and investigators work cases end to end.",
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "Celery", "XGBoost"],
+    video: "/projects/walkthroughs/claimguard.mp4",
     category: "healthcare",
     githubUrl: "https://github.com/William-S-Gray/ClaimGuard",
     liveUrl: "https://claim-guard-silk.vercel.app",

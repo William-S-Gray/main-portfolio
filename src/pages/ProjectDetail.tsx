@@ -113,7 +113,23 @@ const ProjectDetail = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="clay overflow-hidden mb-12"
         >
-          {project.image ? (
+          {project.video ? (
+            <figure>
+              <video
+                src={project.video}
+                poster={project.video.replace(/\.mp4$/, ".jpg")}
+                controls
+                muted
+                playsInline
+                preload="none"
+                className="w-full aspect-video bg-muted"
+                aria-label={`${project.title} walkthrough video`}
+              />
+              <figcaption className="px-4 py-2.5 text-xs text-muted-foreground">
+                One-minute walkthrough, recorded on sample data.
+              </figcaption>
+            </figure>
+          ) : project.image ? (
             <img src={project.image} alt={`${project.title} preview`} className="w-full object-cover" loading="eager" />
           ) : (
             <div className={`h-56 sm:h-72 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-3 text-white`}>

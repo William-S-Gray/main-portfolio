@@ -11,3 +11,11 @@ describe("project images", () => {
     expect(existsSync(resolve("public" + image.replace(/\.webp$/, "-sm.webp")))).toBe(true);
   });
 });
+
+describe("walkthrough videos", () => {
+  it.each(projects.filter((p) => p.video).map((p) => [p.id, p.video!]))("%s has an MP4 and a poster", (_, video) => {
+    expect(video).toMatch(/^\/projects\/walkthroughs\/.+\.mp4$/);
+    expect(existsSync(resolve("public" + video))).toBe(true);
+    expect(existsSync(resolve("public" + video.replace(/\.mp4$/, ".jpg")))).toBe(true);
+  });
+});
