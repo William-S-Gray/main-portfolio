@@ -41,7 +41,7 @@ const systems = [
   { icon: Siren, name: "ERDMS", to: "/projects/erdms", desc: "Emergency response and dispatch for low-connectivity environments — one incident record across citizen, dispatcher and responder." },
   { icon: Pill, name: "PharmConnect Zim", to: "/projects/pharmtrack", desc: "Medicine discovery that shows which nearby pharmacies have a medicine in stock, live." },
   { icon: UtensilsCrossed, name: "Meal Pass", to: "/projects/meal-pass", desc: "Employee feeding access with QR/barcode meal IDs that verify eligibility and prevent double feeding." },
-  { icon: School, name: "School & Campus Platforms", to: "/projects/sacred-heart-sms", desc: "Sacred Heart, 4Life Zoe Campus and CampusIQ — admissions, fees, attendance, report cards and dashboards." },
+  { icon: School, name: "School & Campus Platforms", to: "/projects/classroot", desc: "ClassRoot, 4Life Zoe Campus and CampusIQ — admissions, fees, attendance, report cards and dashboards." },
   { icon: Building2, name: "Hostels, Queues & Operations", to: "/projects/hostel-harmony", desc: "Hostel Harmony, QueueFlow and SmartMart — allocation, live queues, point of sale and reporting." },
 ]
 

@@ -20,7 +20,7 @@ describe("offline assistant routing", () => {
     ["Has he done any machine learning?", "See AI projects"],
     ["Tell me about PathoGuide", "PathoGuide case study"],
     ["What is ClaimGuard?", "ClaimGuard 360° case study"],
-    ["tell me about the sacred heart system", "Sacred Heart School Management System case study"],
+    ["tell me about the sacred heart system", "ClassRoot case study"],
     ["Is Zoe campus live?", "4Life Zoe Digital Campus case study"],
     ["What is his strongest project?", "Browse projects"],
   ])("%s → %s", (q, cta) => {

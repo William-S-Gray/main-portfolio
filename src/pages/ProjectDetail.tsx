@@ -143,6 +143,25 @@ const ProjectDetail = () => {
             </div>
           )}
 
+          {project.howItWorks && project.howItWorks.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">How it works</h2>
+              <ol className="flex flex-col gap-3 list-none p-0">
+                {project.howItWorks.map((s, i) => (
+                  <li key={s.title} className="clay-sm px-4 py-3 flex items-start gap-3 text-sm">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span>
+                      <span className="font-semibold">{s.title}.</span>{" "}
+                      <span className="text-muted-foreground">{s.detail}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
           {project.features && project.features.length > 0 && (
             <div>
               <h2 className="text-xl font-bold mb-4">Key features</h2>

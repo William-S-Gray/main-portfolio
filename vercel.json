@@ -1,4 +1,5 @@
 {
+  "redirects": [{ "source": "/projects/sacred-heart-sms", "destination": "/projects/classroot", "permanent": true }],
   "crons": [{ "path": "/api/analytics-report", "schedule": "0 7 * * 1" }],
   "headers": [
     {

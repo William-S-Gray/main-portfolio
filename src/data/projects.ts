@@ -15,6 +15,8 @@ export interface Project {
   /** Case-study detail — powers /projects/:id. */
   problem?: string;
   role?: string;
+  /** Ordered walkthrough of how the product is used, end to end. */
+  howItWorks?: { title: string; detail: string }[];
   features?: string[];
   /** Layers of the system, top to bottom — rendered as a simple flow diagram. */
   architecture?: string[];
@@ -25,6 +27,53 @@ export interface Project {
 }
 
 const allProjects: Project[] = [
+  {
+    id: "classroot",
+    featured: true,
+    title: "ClassRoot",
+    description: "Multi-school management platform for high schools in Liberia, built first for Sacred Heart Catholic High School, Monrovia. One deployment, a private database schema per school. It covers marks, report cards, attendance that keeps working offline, timetables, fees, and parent messaging.",
+    techStack: ["Django", "Next.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Docker"],
+    category: "management",
+    liveUrl: "https://classroot-platform.graywilliamwiltino.workers.dev/",
+    image: "/projects/classroot.webp",
+    problem:
+      "Liberian schools run marks, attendance, report cards and fees on paper and spreadsheets. Connectivity is unreliable and most teachers work from a phone, so an online-only system would lose data the moment the network drops.",
+    role: "Full-stack design, development & operations",
+    howItWorks: [
+      { title: "A school registers", detail: "It applies on the platform site and the platform owner approves it. ClassRoot then provisions a private database schema and the school's own address, and puts its name, logo and currency on every page and receipt." },
+      { title: "The school brings its data", detail: "Classes, pupils, teachers, guardians and fees come in from Excel or are entered on screen. A setup checklist covers grading scale, marking periods, timetable and fee structures." },
+      { title: "Teachers record, even offline", detail: "Teachers take per-subject registers and enter marks on a phone. Without a connection, entries are saved on the device and sent when it comes back, and any conflicts go to review." },
+      { title: "Results go through approval", detail: "Teachers submit marks, heads of department review them, and the principal approves and publishes. Averages, grades and class positions are calculated automatically, and report cards print for a whole class at once." },
+      { title: "The office runs finance", detail: "Staff raise fees by class, record payments and issue receipts with verification codes, all on an append-only ledger with family statements." },
+      { title: "Families follow along", detail: "Guardians see every child's marks, attendance, homework and balance in one place. They also get announcements, message their child's teachers, and receive report cards once the school releases them." },
+    ],
+    features: [
+      "Schools self-register; each gets its own address, branding and isolated data",
+      "Results workflow (submit, review, approve, publish) with report cards and transcripts as PDF",
+      "Offline marks and attendance entry that syncs later, with conflict review",
+      "Timetable versions with rooms, teacher unavailability and time-boxed cover",
+      "Fees, invoices and receipts with verification codes on an append-only ledger",
+      "Teacher ↔ guardian messaging, announcements and per-topic notification preferences",
+      "Explainable early-warning rules set by the school: no scores, no automated decisions",
+    ],
+    architecture: [
+      "Next.js 15 PWA on Cloudflare Workers (school sites + platform site)",
+      "Django 5 / DRF API on Render: JWT in HttpOnly cookies, capability-based RBAC",
+      "PostgreSQL on Neon via django-tenants (one schema per school)",
+      "Cloudflare R2 for files and nightly backups; GitHub Actions for scheduled jobs",
+    ],
+    decisions: [
+      { title: "A schema per school, not a school_id column", detail: "Isolation lives in Postgres rather than in every query. Every token carries its school and is refused elsewhere, since user ids restart at 1 in each schema. Pooled connections are refused because a session search_path would leak between requests." },
+      { title: "Offline-first where teachers work", detail: "Registers and mark sheets queue in IndexedDB and replay on reconnect. Queued work belongs to the signed-in user, so one teacher's register can never be sent as another's on a shared phone. A Playwright test marks a register offline and asserts it reached the server." },
+      { title: "Releases that can't outrun migrations", detail: "The health endpoint reports the deployed commit and blocks a release whose migrations have not run." },
+    ],
+    results: [
+      "~1,800 backend tests and 95 frontend test files, plus Playwright end-to-end tests against a real API",
+      "CI runs Backend, Frontend, E2E and Security jobs on every pull request",
+      "560+ commits and 200+ pull requests since June 2026, with load testing and pilot validation ahead of rollout",
+      "Nightly database and file backups to private storage, with a documented restore",
+    ],
+  },
   {
     id: "pathoguide",
     featured: true,
@@ -91,7 +140,6 @@ const allProjects: Project[] = [
   },
   {
     id: "zoe-campus",
-    featured: true,
     title: "4Life Zoe Digital Campus",
     description: "The digital platform for 4Life Zoe, a vocational and technical training institution in Liberia. A public website where prospective students apply, plus a role-based campus platform covering admissions, enrollment, fee plans, payments, attendance, and a live executive dashboard.",
     techStack: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Docker"],
@@ -188,24 +236,6 @@ const allProjects: Project[] = [
     results: [
       "Fraud model on synthetic claims data: ROC-AUC ≈ 0.99, precision ≈ 0.85, recall ≈ 0.90 at its operating point",
       "Falls back to a dependency-free heuristic if model artifacts are missing, so scoring never stops",
-    ],
-  },
-  {
-    id: "sacred-heart-sms",
-    title: "Sacred Heart School Management System",
-    description: "Full-stack school management system for Sacred Heart Catholic High School in Monrovia, Liberia — students, classes, marks, conduct, attendance and live report cards, with role-based portals for administrators, teachers and guardians.",
-    techStack: ["Django", "Next.js", "TypeScript", "PostgreSQL", "Redis", "Docker"],
-    category: "management",
-    liveUrl: "https://sacred-heart-sms.vercel.app/",
-    image: "/projects/sacred-heart-sms.webp",
-    role: "Full-stack design & development",
-    features: [
-      "Report cards built from live marks, conduct, attendance, ranking and promotion",
-      "Role-based access enforced at the API — teachers see their classes, guardians their children",
-      "Grading scale configurable in settings, never hard-coded",
-      "In-app and email notifications",
-      "Installable app with offline pages",
-      "Designed for 5,000–10,000 students without re-architecture",
     ],
   },
   {
