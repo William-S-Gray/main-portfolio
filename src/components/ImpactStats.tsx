@@ -17,7 +17,7 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: built.length, label: "Systems built", sub: "with case studies", icon: <Boxes size={22} /> },
+  { value: built.length, label: "Systems built", sub: `${built.filter((p) => !p.archived).length} with in-depth case studies`, icon: <Boxes size={22} /> },
   { value: industries, label: "Industries", sub: "healthcare, edtech, retail & more", icon: <Layers size={22} /> },
   { value: certificates.length, suffix: "+", label: "Certifications", icon: <Award size={22} /> },
   { value: 100, suffix: "+", label: "Developers led", sub: "as GDSC President", icon: <Users size={22} /> },
