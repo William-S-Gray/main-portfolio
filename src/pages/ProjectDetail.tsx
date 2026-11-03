@@ -131,7 +131,6 @@ const ProjectDetail = () => {
                 src={project.video}
                 poster={project.video.replace(/\.mp4$/, ".jpg")}
                 controls
-                muted
                 playsInline
                 preload="none"
                 className="w-full aspect-video bg-muted"

@@ -41,6 +41,7 @@ const allProjects: Project[] = [
     description: "Multi-school management platform for high schools in Liberia, built first for Sacred Heart Catholic High School, Monrovia. One deployment, a private database schema per school. It covers marks, report cards, attendance that keeps working offline, timetables, fees, and parent messaging.",
     techStack: ["Django", "Next.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Docker"],
     category: "management",
+    video: "/projects/walkthroughs/classroot.mp4",
     liveUrl: "https://classroot-platform.graywilliamwiltino.workers.dev/",
     image: "/projects/classroot.webp",
     problem:
