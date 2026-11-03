@@ -1,0 +1,7 @@
+version: 2
+secret:
+  ignored_matches:
+    - name: Aegis public read-only demo login (src/data/projects.ts)
+      match: 7a88e452d805d44d121ea046a8d7c1b3fe4d109e48e15fe0a281348ffd1bb8e5
+    - name: ClaimGuard public read-only demo login (src/data/projects.ts)
+      match: d2db6464e89f3c9c9150c46770152e5a915a4fcc42f81ebce69bebec6d942f1f
