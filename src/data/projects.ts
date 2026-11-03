@@ -88,6 +88,7 @@ const allProjects: Project[] = [
     category: "healthcare",
     liveUrl: "https://pathoguide-frontend.onrender.com/",
     image: "/projects/pathoguide.webp",
+    video: "/projects/walkthroughs/pathoguide.mp4",
     problem:
       "Clinicians often prescribe antibiotics without visibility into local resistance patterns, accelerating antimicrobial resistance and worsening patient outcomes.",
     role: "Full-stack design & development",
