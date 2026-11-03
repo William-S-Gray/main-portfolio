@@ -191,6 +191,7 @@ const allProjects: Project[] = [
     id: "erdms",
     title: "ERDMS – Emergency Response & Dispatch",
     description: "One incident record shared by everyone in an emergency — the citizen who asks for help, the dispatcher, the field officer who arrives, and the administrator. Built for Liberia and comparable African environments: mobile-first, low-bandwidth, offline-tolerant, and multi-agency.",
+    video: "/projects/walkthroughs/erdms.mp4",
     techStack: ["Next.js", "FastAPI", "PostgreSQL", "PostGIS", "Redis", "Celery"],
     category: "emergency",
     status: "in-development",
