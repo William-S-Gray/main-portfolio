@@ -104,6 +104,18 @@ const ProjectDetail = () => {
               </a>
             )}
           </div>
+          {project.demo && project.liveUrl && (
+            <div className="clay-sm px-4 py-3 mb-10 -mt-6 text-sm">
+              <span className="font-semibold">Try the live demo</span>{" "}
+              <span className="text-muted-foreground">({project.demo.role}, read-only):</span>{" "}
+              <code className="px-1.5 py-0.5 rounded bg-muted">{project.demo.email}</code>{" "}
+              <span className="text-muted-foreground">/</span>{" "}
+              <code className="px-1.5 py-0.5 rounded bg-muted">{project.demo.password}</code>
+              <p className="text-xs text-muted-foreground mt-1">
+                Sample data only. The first load can take a minute while the free-tier server wakes up.
+              </p>
+            </div>
+          )}
         </motion.div>
 
         {/* Visual */}
