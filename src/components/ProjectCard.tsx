@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ExternalLink, ArrowRight, Github } from "lucide-react";
+import { ExternalLink, ArrowRight, Github, PlayCircle } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { categoryColors, categoryIcons, statusBadge } from "@/lib/categories";
 
@@ -33,6 +33,15 @@ const ProjectCard = ({ project }: { project: Project }) => {
           </div>
         )}
         <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors" />
+        {/* The walkthrough lives on the case-study page; say so on the card, or nobody finds it. */}
+        {project.video && (
+          <Link
+            to={`/projects/${project.id}`}
+            className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-foreground shadow-md backdrop-blur-sm hover:bg-background"
+          >
+            <PlayCircle size={14} className="text-primary" /> Walkthrough video
+          </Link>
+        )}
         {/* Category icon badge — only over real screenshots */}
         {cardIcon && project.image && (
           <div
@@ -69,7 +78,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
             to={`/projects/${project.id}`}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
           >
-            Case study <ArrowRight size={14} />
+            {project.video ? "Case study & video" : "Case study"} <ArrowRight size={14} />
           </Link>
           {project.liveUrl && (
             <a

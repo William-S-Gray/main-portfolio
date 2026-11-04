@@ -140,7 +140,9 @@ const Index = () => (
               width={433}
               height={577}
               loading="eager"
-              fetchPriority="high"
+              // Lowercase on purpose: React 18 passes unknown lowercase attributes through, but
+              // warns on the camelCase prop it only learns in React 19.
+              {...{ fetchpriority: "high" }}
               decoding="async"
             />
           </div>
