@@ -137,7 +137,7 @@ const ProjectDetail = () => {
                 aria-label={`${project.title} walkthrough video`}
               />
               <figcaption className="px-4 py-2.5 text-xs text-muted-foreground">
-                One-minute walkthrough, recorded on sample data.
+                Short walkthrough, recorded on sample data.
               </figcaption>
             </figure>
           ) : project.image ? (
