@@ -38,7 +38,7 @@ async function hydrate(url: string) {
   const errors: string[] = [];
   const spy = vi.spyOn(console, "error").mockImplementation((...a) => {
     const msg = a.map(String).join(" ");
-    if (!/not configured to support act|fetchPriority/.test(msg)) errors.push(msg);
+    if (!/not configured to support act/.test(msg)) errors.push(msg);
   });
   let unmount = () => {};
   await act(async () => {
